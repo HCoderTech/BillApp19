@@ -1,8 +1,5 @@
-﻿Imports System.Drawing.Printing
-Imports Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6
+﻿Public Class Form4
 
-Public Class Form4
-   
     Dim st As Integer = 0
     Private Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
         ProductDetailBindingSource1.MovePrevious()
@@ -35,6 +32,6 @@ Public Class Form4
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'TODO: This line of code loads data into the 'MRStudioDataSet1.ProductDetail' table. You can move, or remove it, as needed.
         Me.ProductDetailTableAdapter1.Fill(Me.MRStudioDataSet1.ProductDetail)
-       
+
     End Sub
 End Class
