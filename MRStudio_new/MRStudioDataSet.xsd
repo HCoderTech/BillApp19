@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="MRStudioDataSet" targetNamespace="http://tempuri.org/MRStudioDataSet.xsd" xmlns:mstns="http://tempuri.org/MRStudioDataSet.xsd" xmlns="http://tempuri.org/MRStudioDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="MRStudioConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MRStudioConnectionString (MySettings)" PropertyReference="ApplicationSettings.MRStudio_new.My.MySettings.GlobalReference.Default.MRStudioConnectionString" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ProductDetailTableAdapter" GeneratorDataComponentClassName="ProductDetailTableAdapter" Name="ProductDetail" UserDataComponentName="ProductDetailTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="MRStudioConnectionString (MySettings)" DbObjectName="ProductDetail" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Product, Rate FROM ProductDetail</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Product" DataSetColumn="Product" />
+              <Mapping SourceColumn="Rate" DataSetColumn="Rate" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="MRStudioDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="MRStudioDataSet" msprop:Generator_UserDSName="MRStudioDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ProductDetail" msprop:Generator_TableClassName="ProductDetailDataTable" msprop:Generator_TableVarName="tableProductDetail" msprop:Generator_TablePropName="ProductDetail" msprop:Generator_RowDeletingName="ProductDetailRowDeleting" msprop:Generator_RowChangingName="ProductDetailRowChanging" msprop:Generator_RowEvHandlerName="ProductDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="ProductDetailRowDeleted" msprop:Generator_UserTableName="ProductDetail" msprop:Generator_RowChangedName="ProductDetailRowChanged" msprop:Generator_RowEvArgName="ProductDetailRowChangeEvent" msprop:Generator_RowClassName="ProductDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Product" msprop:Generator_ColumnVarNameInTable="columnProduct" msprop:Generator_ColumnPropNameInRow="Product" msprop:Generator_ColumnPropNameInTable="ProductColumn" msprop:Generator_UserColumnName="Product" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Rate" msprop:Generator_ColumnVarNameInTable="columnRate" msprop:Generator_ColumnPropNameInRow="Rate" msprop:Generator_ColumnPropNameInTable="RateColumn" msprop:Generator_UserColumnName="Rate" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
