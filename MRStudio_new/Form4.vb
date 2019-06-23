@@ -22,7 +22,7 @@
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Me.Close1()
+        Me.Close()
         If st = 1 Then
             MessageBox.Show("Application will restart", "Restart Required", MessageBoxButtons.OK)
             Application.Restart()
