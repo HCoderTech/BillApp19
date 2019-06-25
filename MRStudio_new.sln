@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MRStudio_new", "MRStudio_new\MRStudio_new.vbproj", "{02FC4B95-3A5D-4F26-B2C1-63BA847763C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.Tests", "BillApp.Tests\BillApp.Tests.csproj", "{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,10 @@ Global
 		{02FC4B95-3A5D-4F26-B2C1-63BA847763C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02FC4B95-3A5D-4F26-B2C1-63BA847763C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02FC4B95-3A5D-4F26-B2C1-63BA847763C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
