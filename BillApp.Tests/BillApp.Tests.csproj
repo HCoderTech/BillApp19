@@ -53,6 +53,12 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BillApp.BusinessLogic\BillApp.BusinessLogic.csproj">
+      <Project>{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}</Project>
+      <Name>BillApp.BusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

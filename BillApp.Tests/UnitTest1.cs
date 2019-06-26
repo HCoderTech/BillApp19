@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BillApp.BusinessLogic;
 
 namespace BillApp.Tests
 {
@@ -9,7 +10,8 @@ namespace BillApp.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual(4, 4);
+            Adder adder = new Adder();
+            Assert.AreEqual(4, adder.Add(2,2));
         }
     }
 }

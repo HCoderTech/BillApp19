@@ -7,6 +7,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MRStudio_new", "MRStudio_ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.Tests", "BillApp.Tests\BillApp.Tests.csproj", "{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.BusinessLogic", "BillApp.BusinessLogic\BillApp.BusinessLogic.csproj", "{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D82DCD2-88DB-4BA8-826C-70F9C4A11914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
