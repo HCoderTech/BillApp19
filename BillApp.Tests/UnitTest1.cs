@@ -14,7 +14,7 @@ namespace BillApp.Tests
             Adder adder = new Adder();
             Assert.AreEqual(4, adder.Add(2,2));
         }
-
+        [TestMethod]
         public void Test2()
         {
             Subtract sub = new Subtract();
