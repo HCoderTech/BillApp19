@@ -27,7 +27,7 @@
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         txtPassword.Text = ""
         txtUsername.Text = ""
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles Me.Load
