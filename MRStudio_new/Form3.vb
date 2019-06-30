@@ -365,7 +365,7 @@ Public Class Form3
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Form2.Show()
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
