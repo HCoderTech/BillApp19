@@ -2,19 +2,20 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BillApp.BusinessLogic;
 using MRStudio_new;
+using NUnit.Framework;
 
 namespace BillApp.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class UnitTest1
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
             Adder adder = new Adder();
             Assert.AreEqual(4, adder.Add(2,2));
         }
-        [TestMethod]
+        [Test]
         public void Test2()
         {
             Subtract sub = new Subtract();
