@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.Tests", "BillApp.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.BusinessLogic", "BillApp.BusinessLogic\BillApp.BusinessLogic.csproj", "{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.Presenter", "BillApp.Presenter\BillApp.Presenter.csproj", "{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillApp.ViewHelper", "BillApp.ViewHelper\BillApp.ViewHelper.csproj", "{019F74EB-12D4-42C1-A224-78250AD1DAAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B7BC45-1625-4B94-AD5A-7E4452C7FD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{019F74EB-12D4-42C1-A224-78250AD1DAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019F74EB-12D4-42C1-A224-78250AD1DAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019F74EB-12D4-42C1-A224-78250AD1DAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019F74EB-12D4-42C1-A224-78250AD1DAAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

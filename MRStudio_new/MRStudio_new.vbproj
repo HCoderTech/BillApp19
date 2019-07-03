@@ -115,11 +115,11 @@
     <Compile Include="Form6.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.vb">
+    <Compile Include="SplashScreen.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="SplashScreen.Designer.vb">
+      <DependentUpon>SplashScreen.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form2.Designer.vb">
@@ -193,8 +193,8 @@
     <EmbeddedResource Include="Form6.resx">
       <DependentUpon>Form6.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
@@ -302,6 +302,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BillApp.Presenter\BillApp.Presenter.csproj">
+      <Project>{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}</Project>
+      <Name>BillApp.Presenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BillApp.ViewHelper\BillApp.ViewHelper.csproj">
+      <Project>{019f74eb-12d4-42c1-a224-78250ad1daae}</Project>
+      <Name>BillApp.ViewHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
