@@ -15,6 +15,8 @@ namespace BillApp.DBHelperTests
         {
             if (Directory.Exists("MRStudio\\") && File.Exists("MRStudio\\MyData.db"))
                 File.Delete("MRStudio\\MyData.db");
+            else
+                Directory.CreateDirectory("MRStudio\\");
             dbHelper.AddAdminUser("admin", "admin");
             dbHelper.AddStandardUser("Arun", "Hello");
             loginDBHelper = new LoginDBHelper();
