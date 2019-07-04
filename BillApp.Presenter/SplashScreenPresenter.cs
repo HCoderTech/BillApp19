@@ -1,4 +1,5 @@
-﻿using BillApp.ViewHelper;
+﻿using BillApp.DBHelper.SplashScreen;
+using BillApp.ViewHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,11 +19,13 @@ namespace BillApp.Presenter
     public class SplashScreenPresenter : ISplashScreenPresenter
     {
         readonly ISplashScreenView view;
-        private int _loadProgress;
-       
+        readonly ISplashScreenDBHelper dbHelper;
+        int _loadProgress;
+
         public SplashScreenPresenter(ISplashScreenView viewArg)
         {
             view = viewArg;
+            dbHelper = new SplashScreenDBHelper();
             _loadProgress = 0;
         }
 
@@ -55,8 +58,10 @@ namespace BillApp.Presenter
                 using(StreamWriter sw= File.CreateText(path2))
                 {
                     sw.Write("50000");
+                    dbHelper.InitializeDB();
                 }
             }
+            
         }
     }
 }

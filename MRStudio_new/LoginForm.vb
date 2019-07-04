@@ -1,4 +1,4 @@
-﻿Public Class Form2
+﻿Public Class LoginForm
     Dim cnn As New OleDb.OleDbConnection
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         If Not cnn.State = ConnectionState.Open Then
@@ -7,10 +7,10 @@
         Dim dt As New DataTable
         Dim da As New OleDb.OleDbDataAdapter
         If RadioUser.Checked = True Then
-            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Users " & _
+            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Users " &
                                                   " WHERE Username='" & txtUsername.Text & "' and Password='" & txtPassword.Text & "'", cnn)
         Else
-            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Admin " & _
+            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Admin " &
                                                   " WHERE Username='" & txtUsername.Text & "' and Password='" & txtPassword.Text & "'", cnn)
         End If
         da.Fill(dt)

@@ -176,21 +176,21 @@ Public Class Form3
         'TODO: This line of code loads data into the 'MRStudioDataSet.ProductDetail' table. You can move, or remove it, as needed.
         Me.ProductDetailTableAdapter.Fill(Me.MRStudioDataSet.ProductDetail)
         txtName.Focus()
-        lblUser.Text = Form2.txtUsername.Text
+        lblUser.Text = LoginForm.txtUsername.Text
         lblDate.Text = String.Concat("Date :", " ", Format(Now, "dd/MM/yyyy"))
         Dim number As UInt64
         number = My.Computer.FileSystem.ReadAllText("MRStudio\count.txt")
         lblid.Text = String.Concat("Invoice : ", Format(number, "0000"))
         cnn = New OleDb.OleDbConnection
         cnn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\MRStudio.accdb;"
-        If Form2.RadioUser.Checked = True Then
+        If LoginForm.RadioUser.Checked = True Then
             btnUser.Visible = False
             btnReport.Visible = False
             btnChange.Visible = False
             txtChangePassword.Visible = False
             txtChangeUsername.Visible = False
             btnChangeUsername.Visible = False
-        ElseIf Form2.RadioAdmin.Checked = True Then
+        ElseIf LoginForm.RadioAdmin.Checked = True Then
             btnUser.Visible = True
             btnReport.Visible = True
             btnChange.Visible = True
@@ -364,7 +364,7 @@ Public Class Form3
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Form2.Show()
+        LoginForm.Show()
         Close()
     End Sub
 

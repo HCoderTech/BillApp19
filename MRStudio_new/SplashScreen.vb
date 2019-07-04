@@ -27,6 +27,6 @@ Public Class SplashScreen
     End Sub
 
     Public Sub ShowLoginForm() Implements ISplashScreenView.ShowLoginForm
-        Form2.Show()
+        LoginForm.Show()
     End Sub
 End Class

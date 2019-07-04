@@ -51,6 +51,7 @@ namespace BillApp.SplashScreenTests
             presenter.InitializeEnvironment();
             Assert.IsTrue(Directory.Exists("MRStudio\\"));
             Assert.IsTrue(File.Exists("MRStudio\\count.txt"));
+            Assert.IsTrue(File.Exists("MRStudio\\MyData.db"));
         }
 
         private void PathInitialize()
@@ -61,6 +62,11 @@ namespace BillApp.SplashScreenTests
                 {
                     File.Delete("MRStudio\\count.txt");
                 }
+                if (File.Exists("MRStudio\\MyData.db"))
+                {
+                    File.Delete("MRStudio\\MyData.db");
+                }
+
                 Directory.Delete("MRStudio\\");
             }
 
