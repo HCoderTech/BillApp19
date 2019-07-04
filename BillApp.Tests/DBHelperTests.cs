@@ -13,7 +13,7 @@ namespace BillApp.DBHelperTests
         [SetUp]
         public void TestInitialize()
         {
-            if (File.Exists("MRStudio\\MyData.db"))
+            if (Directory.Exists("MRStudio\\") && File.Exists("MRStudio\\MyData.db"))
                 File.Delete("MRStudio\\MyData.db");
             dbHelper.AddAdminUser("admin", "admin");
             dbHelper.AddStandardUser("Arun", "Hello");
