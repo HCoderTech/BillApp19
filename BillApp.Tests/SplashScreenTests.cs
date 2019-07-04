@@ -14,7 +14,7 @@ namespace BillApp.SplashScreenTests
     {
         SplashScreenPresenter presenter;
         Mock<ISplashScreenView> mockView;
-        ISplashScreenView view;
+        
         [SetUp]
         public void TestInitialize()
         {
@@ -53,7 +53,7 @@ namespace BillApp.SplashScreenTests
             Assert.IsTrue(File.Exists("MRStudio\\count.txt"));
         }
 
-        public void PathInitialize()
+        private void PathInitialize()
         {
             if (Directory.Exists("MRStudio\\"))
             {
@@ -65,5 +65,37 @@ namespace BillApp.SplashScreenTests
             }
 
         }
+
+        [Test]
+        public void InitializeWhenOnlyPathExists()
+        {
+            PathInitialize();
+            PathCreate();
+            presenter.InitializeEnvironment();
+            Assert.IsTrue(File.Exists("MRStudio\\count.txt"));
+        }
+
+        [Test]
+        public void InitializeWhenAlreadyInitialized()
+        {
+            PathInitialize();
+            PathCreate();
+            FileCreate();
+            DateTime beforeWriteTime=File.GetLastWriteTime("MRStudio\\count.txt");
+            presenter.InitializeEnvironment();
+            DateTime afterWriteTime = File.GetLastWriteTime("MRStudio\\count.txt");
+            Assert.AreEqual(beforeWriteTime, beforeWriteTime);
+        }
+
+        private void PathCreate()
+        {
+            Directory.CreateDirectory("MRStudio\\");
+        }
+
+        private void FileCreate()
+        {
+            File.Create("MRStudio\\count.txt");
+        }
+
     }
 }
