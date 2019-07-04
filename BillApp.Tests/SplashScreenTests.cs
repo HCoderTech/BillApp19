@@ -5,6 +5,7 @@ using NUnit.Framework;
 using BillApp.Presenter;
 using BillApp.ViewHelper;
 using Moq;
+using System.IO;
 
 namespace BillApp.SplashScreenTests
 {
@@ -42,6 +43,27 @@ namespace BillApp.SplashScreenTests
         {
             for(int i=0;i<99;i++)
             presenter.IncrementLoadProgress();
+        }
+        [Test]
+        public void IsEnvironmentInitializedFirstTimeLaunch()
+        {
+            PathInitialize();
+            presenter.InitializeEnvironment();
+            Assert.IsTrue(Directory.Exists("MRStudio\\"));
+            Assert.IsTrue(File.Exists("MRStudio\\count.txt"));
+        }
+
+        public void PathInitialize()
+        {
+            if (Directory.Exists("MRStudio\\"))
+            {
+                if (File.Exists("MRStudio\\count.txt"))
+                {
+                    File.Delete("MRStudio\\count.txt");
+                }
+                Directory.Delete("MRStudio\\");
+            }
+
         }
     }
 }

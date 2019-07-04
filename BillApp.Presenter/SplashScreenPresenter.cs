@@ -1,6 +1,7 @@
 ﻿using BillApp.ViewHelper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,13 @@ namespace BillApp.Presenter
     public interface ISplashScreenPresenter
     {
         int GetCurrentProgress();
+        void InitializeEnvironment();
         void IncrementLoadProgress();
     }
 
     public class SplashScreenPresenter : ISplashScreenPresenter
     {
-        ISplashScreenView view;
+        readonly ISplashScreenView view;
         private int _loadProgress;
        
         public SplashScreenPresenter(ISplashScreenView viewArg)
@@ -39,6 +41,22 @@ namespace BillApp.Presenter
                 view.CloseView();
             }
        
+        }
+
+        public void InitializeEnvironment()
+        {
+            string path1="MRStudio\\";
+            if (!Directory.Exists(path1))
+                Directory.CreateDirectory(path1);
+            string path2 = "MRStudio\\count.txt";
+
+            if (!File.Exists(path2))
+            {
+                using(StreamWriter sw= File.CreateText(path2))
+                {
+                    sw.Write("50000");
+                }
+            }
         }
     }
 }
