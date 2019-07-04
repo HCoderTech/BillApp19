@@ -4,7 +4,7 @@ using BillApp.ViewHelper;
 using Moq;
 using NUnit.Framework;
 
-namespace BillApp.Tests
+namespace BillApp.LoginTests
 {
     [TestFixture]
     public class LoginTests

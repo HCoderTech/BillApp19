@@ -74,6 +74,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DBHelperTests.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="SplashScreenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

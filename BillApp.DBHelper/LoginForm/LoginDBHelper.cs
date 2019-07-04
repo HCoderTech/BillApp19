@@ -16,13 +16,17 @@ namespace BillApp.DBHelper
             using (var db = new LiteDatabase("MRStudio\\MyData.db"))
             {
                 var col = db.GetCollection<UserDetail>("AdminUsers");
-               return col.Exists(x => x.Username == username && x.Password == password);
+                return col.Exists(x => x.Username == username && x.Password == password);
             }
         }
 
         public bool IsUserExist(string username, string password)
         {
-            return true;
+            using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+            {
+                var col = db.GetCollection<UserDetail>("StandardUsers");
+                return col.Exists(x => x.Username == username && x.Password == password);
+            }
         }
     }
 }
