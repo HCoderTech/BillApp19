@@ -94,7 +94,7 @@ namespace BillApp.SplashScreenTests
 
         private void FileCreate()
         {
-            File.Create("MRStudio\\count.txt");
+            File.Create("MRStudio\\count.txt").Close();
         }
 
     }
