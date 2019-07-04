@@ -18,9 +18,10 @@ namespace BillApp.DBHelper.SplashScreen
         {
             using (var db = new LiteDatabase("MRStudio\\MyData.db"))
             {
-                var col = db.GetCollection<UserDetail>("Users");
+                var col = db.GetCollection<UserDetail>("AdminUsers");
                 var defaultUser = UserDetail.GetDefault();
                 col.Insert(defaultUser);
+                col.EnsureIndex("Id");
             }
         }
     }

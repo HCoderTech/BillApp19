@@ -304,6 +304,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BillApp.DBHelper\BillApp.DBHelper.csproj">
+      <Project>{6FE5FAB6-2526-4D5B-A2D8-05D727F2DCFC}</Project>
+      <Name>BillApp.DBHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BillApp.Presenter\BillApp.Presenter.csproj">
       <Project>{2E3A06F2-2349-423A-8ECD-2A55C1F41FFE}</Project>
       <Name>BillApp.Presenter</Name>

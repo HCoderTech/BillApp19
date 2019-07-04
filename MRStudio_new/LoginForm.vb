@@ -1,45 +1,56 @@
-﻿Public Class LoginForm
-    Dim cnn As New OleDb.OleDbConnection
+﻿
+Imports BillApp.DBHelper
+Imports BillApp.Presenter
+Imports BillApp.ViewHelper
+
+Public Class LoginForm
+    Implements ILoginView
+    Dim presenter As ILoginPresenter
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+        presenter = New LoginPresenter(Me, New LoginDBHelper)
+    End Sub
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
-        If Not cnn.State = ConnectionState.Open Then
-            cnn.Open()
-        End If
-        Dim dt As New DataTable
-        Dim da As New OleDb.OleDbDataAdapter
         If RadioUser.Checked = True Then
-            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Users " &
-                                                  " WHERE Username='" & txtUsername.Text & "' and Password='" & txtPassword.Text & "'", cnn)
+            presenter.LoginAsUser(txtUsername.Text, txtPassword.Text)
         Else
-            da = New OleDb.OleDbDataAdapter("SELECT COUNT(Username) as cnt FROM Admin " &
-                                                  " WHERE Username='" & txtUsername.Text & "' and Password='" & txtPassword.Text & "'", cnn)
-        End If
-        da.Fill(dt)
-        cnn.Close()
-        If dt.Rows(0).Item("cnt") = 1 Then
-            Form3.Show()
-            Me.Close()
-        Else
-            lblerror.Text = "Username/Password does not match"
-            txtPassword.Text = ""
-            txtUsername.Text = ""
+            presenter.LoginAsAdmin(txtUsername.Text, txtPassword.Text)
         End If
     End Sub
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        txtPassword.Text = ""
-        txtUsername.Text = ""
-        Close()
+        presenter.CancelLogin()
     End Sub
 
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles Me.Load
-        cnn = New OleDb.OleDbConnection
-        cnn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\MRStudio.accdb;"
         RadioUser.Checked = True
     End Sub
 
     Private Sub txtUsername_GotFocus(sender As Object, e As EventArgs) Handles txtUsername.GotFocus
-        lblerror.Text = ""
+        ClearError()
     End Sub
     Private Sub txtPassword_GotFocus(sender As Object, e As EventArgs) Handles txtPassword.GotFocus
+        ClearError()
+    End Sub
+
+    Public Sub SetError(msg As String) Implements ILoginView.SetError
+        lblerror.Text = msg
+    End Sub
+
+    Public Sub ClearFields() Implements ILoginView.ClearFields
+        txtPassword.Text = ""
+        txtUsername.Text = ""
+    End Sub
+
+    Public Sub ShowMainForm() Implements ILoginView.ShowMainForm
+        Form3.Show()
+    End Sub
+
+    Public Sub CloseView() Implements ILoginView.CloseView
+        Close()
+    End Sub
+
+    Public Sub ClearError() Implements ILoginView.ClearError
         lblerror.Text = ""
     End Sub
 End Class
