@@ -1,4 +1,4 @@
-﻿Public Class Form6
+﻿Public Class UserForm
     Dim st As Integer = 0
     Dim cnn As New OleDb.OleDbConnection
     Private Sub Form6_Load(sender As Object, e As EventArgs) Handles MyBase.Load

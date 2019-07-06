@@ -43,7 +43,7 @@ Public Class LoginForm
     End Sub
 
     Public Sub ShowMainForm() Implements ILoginView.ShowMainForm
-        Form3.Show()
+        MainForm.Show()
     End Sub
 
     Public Sub CloseView() Implements ILoginView.CloseView

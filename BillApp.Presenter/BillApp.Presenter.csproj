@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginPresenter.cs" />
+    <Compile Include="MainPresenter.cs" />
     <Compile Include="SplashScreenPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

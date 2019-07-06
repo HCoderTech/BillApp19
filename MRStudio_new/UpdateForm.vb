@@ -1,4 +1,4 @@
-﻿Public Class Form8
+﻿Public Class UpdateForm
     Public Sub CheckForUpdates()
         If ProgressBar1.Value = 100 Then
             Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://sowiee.com/mrstudio/update/version.txt")

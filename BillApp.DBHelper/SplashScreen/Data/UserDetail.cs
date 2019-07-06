@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BillApp.DBHelper.SplashScreen.Data
+﻿namespace BillApp.DBHelper.SplashScreen.Data
 {
     public class UserDetail
     {

@@ -1,4 +1,4 @@
-﻿Public Class Form5
+﻿Public Class UpdateDBForm
     Dim cnn As New OleDb.OleDbConnection
     Dim search As Integer
     Dim page As Integer = 0

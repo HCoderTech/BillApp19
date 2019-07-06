@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Form3
+Partial Class MainForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -28,7 +28,7 @@ Partial Class Form3
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form3))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.txtPhone = New System.Windows.Forms.TextBox()
         Me.txtName = New System.Windows.Forms.TextBox()
         Me.lblid = New System.Windows.Forms.Label()
@@ -44,6 +44,10 @@ Partial Class Form3
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.ProductDetails = New System.Windows.Forms.DataGridView()
+        Me.Product = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Quantity = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Amount = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ProductDetailBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.MRStudioDataSet = New MRStudio_new.MRStudioDataSet()
         Me.ProductDetailTableAdapter = New MRStudio_new.MRStudioDataSetTableAdapters.ProductDetailTableAdapter()
@@ -64,10 +68,6 @@ Partial Class Form3
         Me.Label2 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.txtDiscount = New System.Windows.Forms.TextBox()
-        Me.Product = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Quantity = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Amount = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.ProductDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ProductDetailBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MRStudioDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -238,6 +238,42 @@ Partial Class Form3
         Me.ProductDetails.Size = New System.Drawing.Size(471, 137)
         Me.ProductDetails.TabIndex = 40
         '
+        'Product
+        '
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.Navy
+        Me.Product.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Product.HeaderText = "Product Name"
+        Me.Product.Name = "Product"
+        Me.Product.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Product.Width = 200
+        '
+        'Quantity
+        '
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy
+        Me.Quantity.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Quantity.HeaderText = "Quantity"
+        Me.Quantity.Name = "Quantity"
+        Me.Quantity.Width = 75
+        '
+        'Rate
+        '
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Navy
+        Me.Rate.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Rate.HeaderText = "Rate(Rs.)"
+        Me.Rate.Name = "Rate"
+        Me.Rate.Width = 75
+        '
+        'Amount
+        '
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy
+        Me.Amount.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Amount.HeaderText = "Amount"
+        Me.Amount.Name = "Amount"
+        Me.Amount.ReadOnly = True
+        Me.Amount.Width = 75
+        '
         'ProductDetailBindingSource
         '
         Me.ProductDetailBindingSource.DataMember = "ProductDetail"
@@ -292,7 +328,7 @@ Partial Class Form3
         'ComboBill
         '
         Me.ComboBill.FormattingEnabled = True
-        Me.ComboBill.Items.AddRange(New Object() {"Cash", "Order"})
+        Me.ComboBill.Items.AddRange(New Object() {"Cash", "Card", "UPI"})
         Me.ComboBill.Location = New System.Drawing.Point(512, 577)
         Me.ComboBill.Name = "ComboBill"
         Me.ComboBill.Size = New System.Drawing.Size(129, 24)
@@ -446,43 +482,7 @@ Partial Class Form3
         Me.txtDiscount.Text = "0"
         Me.txtDiscount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'Product
-        '
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.Navy
-        Me.Product.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Product.HeaderText = "Product Name"
-        Me.Product.Name = "Product"
-        Me.Product.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Product.Width = 200
-        '
-        'Quantity
-        '
-        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy
-        Me.Quantity.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Quantity.HeaderText = "Quantity"
-        Me.Quantity.Name = "Quantity"
-        Me.Quantity.Width = 75
-        '
-        'Rate
-        '
-        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Navy
-        Me.Rate.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Rate.HeaderText = "Rate(Rs.)"
-        Me.Rate.Name = "Rate"
-        Me.Rate.Width = 75
-        '
-        'Amount
-        '
-        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy
-        Me.Amount.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Amount.HeaderText = "Amount"
-        Me.Amount.Name = "Amount"
-        Me.Amount.ReadOnly = True
-        Me.Amount.Width = 75
-        '
-        'Form3
+        'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -524,7 +524,7 @@ Partial Class Form3
         Me.ForeColor = System.Drawing.Color.Transparent
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Form3"
+        Me.Name = "MainForm"
         Me.Text = "New Invoice-M R Studio"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.ProductDetails, System.ComponentModel.ISupportInitialize).EndInit()

@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\DBHelper.cs" />
+    <Compile Include="Data\BillEntry.cs" />
     <Compile Include="LoginForm\LoginDBHelper.cs" />
+    <Compile Include="MainForm\MainDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen\Data\UserDetail.cs" />
     <Compile Include="SplashScreen\SplashScreenDBHelper.cs" />

@@ -1,4 +1,4 @@
-﻿Public Class Form4
+﻿Public Class ProductForm
 
     Dim st As Integer = 0
     Private Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click

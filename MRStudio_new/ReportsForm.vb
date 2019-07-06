@@ -1,4 +1,4 @@
-﻿Public Class Form7
+﻿Public Class ReportsForm
     Dim cnn As New OleDb.OleDbConnection
     Dim today As Integer = 0
     Dim firstpage As Boolean = True
