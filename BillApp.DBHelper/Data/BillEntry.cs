@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,28 +7,29 @@ namespace BillApp.DBHelper.Data
 {
     public class BillEntry
     {
-        public int Id;
-        public string BillID;
-        public string CustomerName;
-        public string PhoneNumber;
-        public ProductPurchase Products=new ProductPurchase();
-        public bool Delivered;
-        public BillType BillType;
-        public string BilledByUser;
-        public DateTime DateTimeFirstEntry;
-        public DateTime DateTimeLastUpdate;
-       
+        [BsonId]
+        public int Id { get; set; }
+        public string BillID { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
+        public ProductPurchase Products { get; set; } = new ProductPurchase();
+        public bool Delivered { get; set; }
+        public BillType BillType { get; set; }
+        public string BilledByUser { get; set; }
+        public DateTime DateTimeFirstEntry { get; set; }
+        public DateTime DateTimeLastUpdate { get; set; }
+
     }
 
     public enum BillType { Undefined,Cash, Card, UPI }
 
     public class ProductPurchase
     {
-        public Dictionary<Product,double> ProductList;
-        public double Advance;
-        public double Discount;
-        public double Balance;
-        public double TotalAmount;
+        public Dictionary<Product, double> ProductList { get; set; }
+        public double Advance { get; set; }
+        public double Discount { get; set; }
+        public double Balance { get; set; }
+        public double TotalAmount { get; set; }
         public ProductPurchase()
         {
             ProductList = new Dictionary<Product, double>();
@@ -80,8 +82,9 @@ namespace BillApp.DBHelper.Data
     }
     public class Product
     {
-        public int Id;
-        public string ProductName;
-        public double Rate;
+        [BsonId]
+        public int Id { get; set; }
+        public string ProductName { get; set; }
+        public double Rate { get; set; }
     }
 }

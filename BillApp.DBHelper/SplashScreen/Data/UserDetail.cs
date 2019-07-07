@@ -1,7 +1,10 @@
-﻿namespace BillApp.DBHelper.SplashScreen.Data
+﻿using LiteDB;
+
+namespace BillApp.DBHelper.SplashScreen.Data
 {
     public class UserDetail
     {
+        [BsonId]
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
