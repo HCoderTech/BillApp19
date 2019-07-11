@@ -452,7 +452,7 @@ Public Class MainForm
         ProductDetails.Rows(ProductDetails.CurrentCell.RowIndex).Cells(3).Value = amount
     End Sub
 
-    Public Sub UpdateTotalAmount(v As Object) Implements IMainView.UpdateTotalAmount
+    Public Sub UpdateTotalAmount(v As String) Implements IMainView.UpdateTotalAmount
         lblTotal.Text = v.ToString()
     End Sub
 

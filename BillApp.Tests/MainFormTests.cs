@@ -94,6 +94,53 @@ namespace BillApp.MainFormTests
             mockView.Verify(view => view.ShowUserForm(), "User Form not shown when the button is clicked");
         }
 
+        [Test]
+        public void AddProductEmptyName()
+        {
+            presenter.AddProduct(string.Empty);
+            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowWarning(It.IsAny<string>(),It.IsAny<string>()),"Warning not shown when empty product name typed.");
+        }
+
+        [Test]
+        public void AddProductNull()
+        {
+            presenter.AddProduct(null);
+            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown when product name is null.");
+        }
+
+        [Test]
+        public void AddProductSucceeded()
+        {
+            presenter.AddProduct("PassPort");
+            double amount = 0;
+            mockDBHelper.Verify(db => db.AddProduct(It.Is<string>(x => x == "PassPort"),out amount));
+            mockView.Verify(view => view.UpdateTotalAmount(It.IsAny<string>()), "View values are not updated on successful product addition.");
+            mockView.Verify(view => view.UpdateDiscount(It.IsAny<string>()),"View values are not updated on successful product addition.");
+        }
+
+        [Test]
+        public void CancelCurrentEntryConfirmed()
+        {
+            mockDialogHelper.Setup(x => x.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            presenter.Initialize("admin", true);
+            presenter.CancelCurrentEntry();
+            mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool> (x => x == true)),"DB not initialized with new entry after cancel succeeded.");
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()),"Invoice ID not updated after cancel succeeded.");
+            mockView.Verify(view => view.InitializeNewEntry(),"View not updated for Initialize New Entry");
+        }
+
+        [Test]
+        public void CancelCurrentEntryNotConfirmed()
+        {
+            mockDialogHelper.Setup(x => x.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            presenter.Initialize("admin", true);
+            presenter.CancelCurrentEntry();
+            mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool>(x => x == true)),Times.Never,"DB initialized with new entry after cancel failed.");
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()), "Invoice ID updated after cancel failed.");
+            mockView.Verify(view => view.InitializeNewEntry(), "View updated for Initialize New Entry after cancel failed.");
+
+        }
+
 
     }
 }

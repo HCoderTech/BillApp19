@@ -20,7 +20,7 @@
         void ShowProductForm();
         void ShowUpdateDBForm();
         void UpdateAmount(double amount);
-        void UpdateTotalAmount(object v);
+        void UpdateTotalAmount(string v);
         void UpdateRate(double amount);
         void UpdateQuantity(int v);
         void ShowUpdateForm();
