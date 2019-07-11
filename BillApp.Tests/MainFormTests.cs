@@ -20,6 +20,9 @@ namespace BillApp.MainFormTests
             mockDBHelper = new Mock<IMainDBHelper>();
             mockDialogHelper = new Mock<IDialogHelper>();
             mockDBHelper.Setup(dbHelper => dbHelper.GetBillID()).Returns("50000");
+            mockDialogHelper.Invocations.Clear();
+            mockDBHelper.Invocations.Clear();
+            mockView.Invocations.Clear();
             presenter = new MainPresenter(mockView.Object,mockDBHelper.Object,mockDialogHelper.Object);
         }
 
@@ -123,6 +126,7 @@ namespace BillApp.MainFormTests
         {
             mockDialogHelper.Setup(x => x.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             presenter.Initialize("admin", true);
+            ClearInvocations();
             presenter.CancelCurrentEntry();
             mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool> (x => x == true)),"DB not initialized with new entry after cancel succeeded.");
             mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()),"Invoice ID not updated after cancel succeeded.");
@@ -134,11 +138,25 @@ namespace BillApp.MainFormTests
         {
             mockDialogHelper.Setup(x => x.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             presenter.Initialize("admin", true);
+            ClearInvocations();
             presenter.CancelCurrentEntry();
-            mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool>(x => x == true)),Times.Never,"DB initialized with new entry after cancel failed.");
-            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()),Times.Never, "Invoice ID updated after cancel failed.");
-            mockView.Verify(view => view.InitializeNewEntry(),Times.Never, "View updated for Initialize New Entry after cancel failed.");
+            mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool>(x => x == true)), Times.Never, "DB initialized with new entry after cancel failed.");
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()), Times.Never, "Invoice ID updated after cancel failed.");
+            mockView.Verify(view => view.InitializeNewEntry(), Times.Never, "View updated for Initialize New Entry after cancel failed.");
 
+        }
+
+        private void ClearInvocations()
+        {
+            mockDialogHelper.Invocations.Clear();
+            mockDBHelper.Invocations.Clear();
+            mockView.Invocations.Clear();
+        }
+
+        [TearDown]
+        public void ClearInternalState()
+        {
+            mockDialogHelper.Invocations.Clear();
         }
 
 
