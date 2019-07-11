@@ -67,5 +67,33 @@ namespace BillApp.MainFormTests
             mockView.Verify(view => view.UpdateCustomerName(It.IsAny<string>()), Times.Once,"Update Customer Name succeeded internally");
         }
 
+        [Test]
+        public void ShowUpdateForm()
+        {
+            presenter.ShowUpdateForm();
+            mockView.Verify(view => view.ShowUpdateForm(), "Update Form not shown when the button is clicked.");
+        }
+        [Test]
+        public void ShowUpdateDBForm()
+        {
+            presenter.ShowUpdateDBForm();
+            mockView.Verify(view => view.ShowUpdateDBForm(), "Update DB Form not shown when the button is clicked");
+        }
+
+        [Test]
+        public void ShowProductForm()
+        {
+            presenter.ShowProductForm();
+            mockView.Verify(view => view.ShowProductForm(), "Product Form not shown when the button is clicked");
+        }
+
+        [Test]
+        public void ShowUserForm()
+        {
+            presenter.ShowUserForm();
+            mockView.Verify(view => view.ShowUserForm(), "User Form not shown when the button is clicked");
+        }
+
+
     }
 }
