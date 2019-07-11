@@ -1,6 +1,4 @@
-﻿Imports System.Collections
-Imports System.Collections.Generic
-Imports BillApp.DBHelper.MainForm
+﻿Imports BillApp.DBHelper.MainForm
 Imports BillApp.Presenter
 Imports BillApp.ViewHelper
 
@@ -13,103 +11,69 @@ Public Class MainForm
     Dim presenter As IMainPresenter
 
     Public Sub New()
-        InitializeComponent()
+        UpdatingUI = True
         presenter = New MainPresenter(Me, New MainDBHelper)
+        InitializeComponent()
+        UpdatingUI = False
     End Sub
 
     Private Sub txtName_GotFocus(sender As Object, e As EventArgs) Handles txtName.GotFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtName.Text = "Enter Name" Then
             txtName.ForeColor = Color.Black
             txtName.Text = ""
         End If
     End Sub
     Private Sub txtName_LostFocus(sender As Object, e As EventArgs) Handles txtName.LostFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtName.Text = "" Then
             txtName.ForeColor = Color.Silver
             txtName.Text = "Enter Name"
         End If
     End Sub
     Private Sub txtPhone_GotFocus(sender As Object, e As EventArgs) Handles txtPhone.GotFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtPhone.Text = "1234567890" Then
             txtPhone.ForeColor = Color.Black
             txtPhone.Text = ""
         End If
     End Sub
     Private Sub txtPhone_LostFocus(sender As Object, e As EventArgs) Handles txtPhone.LostFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtPhone.Text = "" Then
             txtPhone.ForeColor = Color.Silver
             txtPhone.Text = "1234567890"
         End If
     End Sub
     Private Sub txtAdvance_GotFocus(sender As Object, e As EventArgs) Handles txtAdvance.GotFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtAdvance.Text = "0" Then
             txtAdvance.ForeColor = Color.Black
             txtAdvance.Text = ""
         End If
     End Sub
     Private Sub txtAdvance_LostFocus(sender As Object, e As EventArgs) Handles txtAdvance.LostFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtAdvance.Text = "" Then
             txtAdvance.ForeColor = Color.Silver
             txtAdvance.Text = "0"
         End If
     End Sub
-    Private Sub RefreshInvoiceId()
-        Dim number As UInt64
-        number = My.Computer.FileSystem.ReadAllText("MRStudio\count.txt")
-        lblid.Text = String.Concat("Invoice : ", Format(number, "0000"))
-    End Sub
+
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        'Dim productdetail As String
-        'Dim x As Integer
-        'Dim number As Integer
-        'Dim deliver As String
-        'Dim billtype As String
-        'productdetail = ""
-        'If txtName.Text = "Enter Name" Or txtPhone.Text = "1234567890" Or lblTotal.Text = "0" Then
-        '    MessageBox.Show("Customer Name or Phone Number or Product details missing", "Required!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        'ElseIf IsNothing(ComboBill.SelectedItem) Then
-        '    MessageBox.Show("Select Bill Type", "Alert!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        'Else
-        '    If checkDeliver.Checked = True Then
-        '        deliver = "Yes"
-        '    Else
-        '        deliver = "No"
-        '    End If
-        '    If ComboBill.SelectedValue = "Order" Then
-        '        billtype = "Order"
-        '    Else
-        '        billtype = "Cash"
-        '    End If
-        '    number = My.Computer.FileSystem.ReadAllText("MRStudio\count.txt")
-        '    For x = 0 To ProductDetails.RowCount - 2
-        '        productdetail = String.Concat(productdetail, ProductDetails.Rows(x).Cells(0).Value, "-", ProductDetails.Rows(x).Cells(1).Value, "-", ProductDetails.Rows(x).Cells(3).Value, "|")
-        '    Next
-        '    Dim cmd As New OleDb.OleDbCommand
-        '    If Not cnn.State = ConnectionState.Open Then
-        '        'open connection if it is not yet open
-        '        cnn.Open()
-        '    End If
-        '    Try
-        '        If save = 0 Then
-        '            RefreshInvoiceId()
-        '            cmd.Connection = cnn
-        '            cmd.CommandText = "INSERT INTO Customer(Cust_Name, Cust_Phone, invoice_id, Products,Total,Balance,Advance,Discount,Delivered,BillType,BilledBy,DateOrder) " &
-        '                           " VALUES('" & txtName.Text & "','" & txtPhone.Text & "','" &
-        '                           Replace(lblid.Text, "Invoice : ", "") & "','" & productdetail & "','" &
-        '                           lblTotal.Text & "','" & lblBalance.Text & "','" & txtAdvance.Text & "','" & txtDiscount.Text & "','" & deliver & "','" & billtype & "','" & lblUser.Text & "','" & Now.Date & "')"
-        '            cmd.ExecuteNonQuery()
-        '            MessageBox.Show("Details Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '            save = 1
-        '            number = Convert.ToInt64(number) + 1
-        '            My.Computer.FileSystem.WriteAllText("MRStudio\count.txt", number, False)
-        '            btnCancel.Enabled = False
-        '        Else
-        '            MessageBox.Show("Already Saved", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '        End If
-        '    Catch ex As OleDb.OleDbException
-        '        MessageBox.Show("Invoice Id Error", "Exit and Restart", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        '    End Try
-        'End If
+        presenter.SaveCurrentEntry()
     End Sub
 
     Private Sub ProductDetails_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles ProductDetails.CellMouseEnter
@@ -128,6 +92,7 @@ Public Class MainForm
         End If
         UpdatingUI = True
         If e.ColumnIndex = 0 Then
+            AutoComplete()
             presenter.AddProduct(ProductDetails.Rows(e.RowIndex).Cells(0).Value.ToString())
         ElseIf e.ColumnIndex = 1 Then
             presenter.UpdateQuantity(ProductDetails.Rows(e.RowIndex).Cells(0).Value.ToString(), ProductDetails.Rows(e.RowIndex).Cells(1).Value)
@@ -148,14 +113,19 @@ Public Class MainForm
     End Sub
 
     Private Sub txtAdvance_TextChanged(sender As Object, e As EventArgs) Handles txtAdvance.TextChanged
+        If UpdatingUI Then
+            Return
+        End If
         Dim advance As Double
         If Integer.TryParse(txtAdvance.Text, advance) Then
             presenter.UpdateAdvance(advance)
         End If
     End Sub
 
-    Private Sub Form3_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UpdatingUI = True
         presenter.Initialize(LoginForm.txtUsername.Text, LoginForm.RadioAdmin.Checked)
+        UpdatingUI = False
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -218,18 +188,34 @@ Public Class MainForm
     End Sub
 
     Private Sub txtPhone_TextChanged(sender As Object, e As EventArgs) Handles txtPhone.TextChanged
-        presenter.UpdatePhoneNumber(txtPhone.Text)
+        If UpdatingUI Then
+            Return
+        End If
+        If Not txtPhone.Text = "1234567890" Then
+            presenter.UpdatePhoneNumber(txtPhone.Text)
+        End If
     End Sub
 
     Private Sub txtName_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtName.TextChanged
-        presenter.UpdateCustomerName(txtName.Text)
+        If UpdatingUI Then
+            Return
+        End If
+        If Not txtName.Text = "Enter Name" Then
+            presenter.UpdateCustomerName(txtName.Text)
+        End If
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        If UpdatingUI Then
+            Return
+        End If
         presenter.CancelCurrentEntry()
     End Sub
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+        If UpdatingUI Then
+            Return
+        End If
         presenter.CreateNewBillEntry()
     End Sub
 
@@ -283,10 +269,14 @@ Public Class MainForm
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-        UpdateForm.Show()
+        presenter.ShowUpdateForm()
+
     End Sub
 
     Private Sub txtDiscount_GotFocus(sender As Object, e As EventArgs) Handles txtDiscount.GotFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtDiscount.Text = "0" Then
             txtDiscount.ForeColor = Color.Black
             txtDiscount.Text = ""
@@ -294,6 +284,9 @@ Public Class MainForm
     End Sub
 
     Private Sub txtDiscount_LostFocus(sender As Object, e As EventArgs) Handles txtDiscount.LostFocus
+        If UpdatingUI Then
+            Return
+        End If
         If txtDiscount.Text = "" Then
             txtDiscount.ForeColor = Color.Silver
             txtDiscount.Text = "0"
@@ -301,6 +294,9 @@ Public Class MainForm
     End Sub
 
     Private Sub txtDiscount_TextChanged(sender As Object, e As EventArgs) Handles txtDiscount.TextChanged
+        If UpdatingUI Then
+            Return
+        End If
         Dim discount As Double
         If Double.TryParse(txtDiscount.Text, discount) Then
             presenter.UpdateDiscount(discount)
@@ -315,8 +311,13 @@ Public Class MainForm
                 autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                 Dim DataCollection As New AutoCompleteStringCollection()
                 Dim ProductList As List(Of String)
-                ProductList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
-                addItems(DataCollection, ProductList)
+                If ProductDetails.CurrentCell.Value = Nothing Then
+                    ProductList = presenter.GetProductList("")
+                    addItems(DataCollection, ProductList)
+                Else
+                    ProductList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
+                    addItems(DataCollection, ProductList)
+                End If
                 autoText.AutoCompleteCustomSource = DataCollection
             End If
         End If
@@ -350,10 +351,14 @@ Public Class MainForm
     End Sub
 
     Public Sub UpdatePhoneNumber(currentPhoneNumber As String) Implements IMainView.UpdatePhoneNumber
+
         txtPhone.Text = currentPhoneNumber
     End Sub
 
     Public Sub SetFocusToName() Implements IMainView.SetFocusToName
+        If UpdatingUI Then
+            Return
+        End If
         txtName.Focus()
     End Sub
 
@@ -392,23 +397,14 @@ Public Class MainForm
     End Sub
 
     Public Sub UpdateBalance(v As String) Implements IMainView.UpdateBalance
-        If UpdatingUI Then
-            Return
-        End If
         lblBalance.Text = v
     End Sub
 
     Public Sub UpdateDiscount(v As String) Implements IMainView.UpdateDiscount
-        If UpdatingUI Then
-            Return
-        End If
         txtDiscount.Text = v
     End Sub
 
     Public Sub UpdateAdvance(v As String) Implements IMainView.UpdateAdvance
-        If UpdatingUI Then
-            Return
-        End If
         txtAdvance.Text = v
     End Sub
 
@@ -443,7 +439,9 @@ Public Class MainForm
     End Sub
 
     Private Sub ComboBill_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBill.SelectedIndexChanged
-        presenter.UpdateBillType(ComboBill.SelectedValue.ToString())
+        If ComboBill.SelectedIndex > -1 Then
+            presenter.UpdateBillType(ComboBill.SelectedIndex)
+        End If
     End Sub
 
     Private Sub checkDeliver_CheckedChanged(sender As Object, e As EventArgs) Handles checkDeliver.CheckedChanged
@@ -455,13 +453,35 @@ Public Class MainForm
     End Sub
 
     Public Sub UpdateTotalAmount(v As Object) Implements IMainView.UpdateTotalAmount
-        If UpdatingUI Then
-            Return
-        End If
         lblTotal.Text = v.ToString()
     End Sub
 
     Public Sub UpdateRate(amount As Double) Implements IMainView.UpdateRate
         ProductDetails.Rows(ProductDetails.CurrentCell.RowIndex).Cells(2).Value = amount
+    End Sub
+
+    Private Sub AutoComplete()
+        'If ProductDetails.CurrentCell.ColumnIndex = 0 Then
+        '    Dim autoText As TextBox = TryCast(ProductDetails.EditingControl, TextBox)
+        '    If autoText IsNot Nothing Then
+        '        autoText.AutoCompleteMode = AutoCompleteMode.Suggest
+        '        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
+        '        Dim DataCollection As New AutoCompleteStringCollection()
+        '        Dim ProductList As List(Of String)
+        '        If Not ProductDetails.CurrentCell.Value = Nothing Then
+        '            ProductList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
+        '            addItems(DataCollection, ProductList)
+        '        End If
+        '        autoText.AutoCompleteCustomSource = DataCollection
+        '    End If
+        'End If
+    End Sub
+
+    Public Sub UpdateQuantity(v As Integer) Implements IMainView.UpdateQuantity
+        ProductDetails.Rows(ProductDetails.CurrentCell.RowIndex).Cells(1).Value = v
+    End Sub
+
+    Public Sub ShowUpdateForm() Implements IMainView.ShowUpdateForm
+        UpdateForm.Show()
     End Sub
 End Class

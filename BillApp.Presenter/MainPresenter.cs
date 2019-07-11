@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using BillApp.DBHelper.MainForm;
 using BillApp.ViewHelper;
+using BillApp.DBHelper.Data;
+using System.IO;
 
 namespace BillApp.Presenter
 {
@@ -18,10 +20,12 @@ namespace BillApp.Presenter
         void ShowUpdateDBForm();
         void CancelCurrentEntry();
         List<string> GetProductList(string productPattern);
-        void UpdateBillType(string v);
+        void UpdateBillType(int v);
         void UpdateDeliverStatus(bool status);
         void AddProduct(string productName);
         void UpdateQuantity(string productName, double value);
+        void SaveCurrentEntry();
+        void ShowUpdateForm();
     }
     public class MainPresenter : IMainPresenter
     {
@@ -135,7 +139,29 @@ namespace BillApp.Presenter
 
         public void SaveCurrentEntry()
         {
+            if (dbHelper.GetCustomerName() == "" || dbHelper.GetPhoneNumber() == "" || dbHelper.GetTotalAmount() == "0")
+            {
+                dialogHelper.ShowWarning("Customer Name or Phone Number or Product details missing", "Required!!!");
+            } else if (dbHelper.GetBillType() == BillType.Undefined)
+            {
+                dialogHelper.ShowWarning("Select Bill Type", "Alert!!!");
+            }else
+            {
+                bool isSaved=dbHelper.SaveEntryToDatabase();
 
+                if (isSaved)
+                {
+                    int number;
+                    int.TryParse(File.ReadAllText("MRStudio\\count.txt"),out number);
+                    number = number + 1;
+                    File.WriteAllText("MRStudio\\count.txt", number.ToString());
+                    dialogHelper.ShowInfo("Details Saved", "Success");
+                }
+                else
+                {
+                    dialogHelper.ShowInfo("Already Saved", "Info");
+                }
+            }
         }
 
         public void ShowProductForm()
@@ -220,7 +246,7 @@ namespace BillApp.Presenter
         //End If
         }
 
-        public void UpdateBillType(string billType)
+        public void UpdateBillType(int billType)
         {
             dbHelper.UpdateBillType(billType);
         }
@@ -239,6 +265,7 @@ namespace BillApp.Presenter
             {
                 double amount = 0;
                 dbHelper.AddProduct(productName,out amount);
+                view.UpdateQuantity(1);
                 view.UpdateRate(amount);
                 view.UpdateAmount(amount);
                 UpdateValues();
@@ -254,7 +281,7 @@ namespace BillApp.Presenter
             }else
             {
                 dbHelper.UpdateQuantity(productName, value, out amount);
-                ////view.UpdateAmount(amount);
+                view.UpdateAmount(amount);
                 UpdateValues();  
             }
         }
@@ -265,6 +292,11 @@ namespace BillApp.Presenter
             view.UpdateBalance(dbHelper.GetBalance());
             view.UpdateAdvance(dbHelper.GetAdvance());
             view.UpdateDiscount(dbHelper.GetDiscount());
+        }
+
+        public void ShowUpdateForm()
+        {
+            view.ShowUpdateForm();
         }
     }
 }

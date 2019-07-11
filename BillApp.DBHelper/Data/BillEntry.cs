@@ -80,11 +80,26 @@ namespace BillApp.DBHelper.Data
             return ProductList.Keys.Any(x => x.ProductName.ToLower() == productName.ToLower());
         }
     }
-    public class Product
+    public class Product:IEquatable<Product>
     {
         [BsonId]
         public int Id { get; set; }
         public string ProductName { get; set; }
         public double Rate { get; set; }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals((Product)obj);
+        }
+
+        public bool Equals(Product other)
+        {
+           return ProductName==other.ProductName;
+        }
     }
 }

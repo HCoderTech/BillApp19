@@ -22,5 +22,7 @@
         void UpdateAmount(double amount);
         void UpdateTotalAmount(object v);
         void UpdateRate(double amount);
+        void UpdateQuantity(int v);
+        void ShowUpdateForm();
     }
 }

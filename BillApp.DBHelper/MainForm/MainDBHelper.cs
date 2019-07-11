@@ -19,7 +19,7 @@ namespace BillApp.DBHelper.MainForm
         bool UpdateDiscount(double discount,out double balance);
         bool UpdateAdvance(double advance, out double balance);
         List<string> GetProducts(string productPattern);
-        void UpdateBillType(string billType);
+        void UpdateBillType(int billType);
         void UpdateDeliverStatus(bool status);
         bool AddProduct(string productName,out double rate);
         string GetTotalAmount();
@@ -27,12 +27,14 @@ namespace BillApp.DBHelper.MainForm
         string GetAdvance();
         string GetDiscount();
         void UpdateQuantity(string productName, double value, out double amount);
+        BillType GetBillType();
+        bool SaveEntryToDatabase();
     }
 
     public class MainDBHelper:IMainDBHelper
     {
         private BillEntry currentBillEntry;
-        bool saveNeeded;
+        bool saveNeeded,firsttimesave;
         public bool InitializeNewBillEntry(string BilledBy,bool forceCreate)
         {
             if (forceCreate || !saveNeeded)
@@ -43,6 +45,7 @@ namespace BillApp.DBHelper.MainForm
                 currentBillEntry.BillID = File.ReadAllText("MRStudio\\count.txt");
                 currentBillEntry.BilledByUser = BilledBy;
                 saveNeeded = false;
+                firsttimesave = true;
                 return true;
             }
 
@@ -63,6 +66,7 @@ namespace BillApp.DBHelper.MainForm
             if (isNameValid(customerName))
             {
                 currentBillEntry.CustomerName = customerName;
+                saveNeeded = true;
                 return true;
             }
             return false;
@@ -83,6 +87,7 @@ namespace BillApp.DBHelper.MainForm
             if (isPhoneNumberValid(phoneNumber))
             {
                 currentBillEntry.PhoneNumber = phoneNumber;
+                saveNeeded = true;
                 return true;
             }
             return false;
@@ -100,6 +105,7 @@ namespace BillApp.DBHelper.MainForm
                 return false;
             currentBillEntry.Products.Discount = discount;
             currentBillEntry.Products.Balance = balance;
+            saveNeeded = true;
             return true;
         }
 
@@ -110,6 +116,7 @@ namespace BillApp.DBHelper.MainForm
                 return false;
             currentBillEntry.Products.Advance = advance;
             currentBillEntry.Products.Balance = balance;
+            saveNeeded = true;
             return true;
         }
 
@@ -124,16 +131,20 @@ namespace BillApp.DBHelper.MainForm
             }
         }
 
-        public void UpdateBillType(string billType)
+        public void UpdateBillType(int billType)
         {
-            BillType value;
-            if (Enum.TryParse(billType, out value))
-                currentBillEntry.BillType = value;
+            if (billType < 0) return;
+           
+                currentBillEntry.BillType = (BillType)(billType+1);
+                saveNeeded = true;
+            
+               
         }
 
         public void UpdateDeliverStatus(bool status)
         {
             currentBillEntry.Delivered = status;
+            saveNeeded = true;
         }
 
         public bool AddProduct(string productName,out double amount)
@@ -144,11 +155,13 @@ namespace BillApp.DBHelper.MainForm
             {
                 currentBillEntry.Products.AddProductPurchase(product);
                 amount = product.Rate;
+                saveNeeded = true;
                 return true;
             }else if (currentBillEntry.Products.AlreadyExists(productName))
             {
                 amount = product.Rate;
                 currentBillEntry.Products.UpdateProductPurchase(product, 1, true);
+                saveNeeded = true;
                 return true;
             }
             return false;
@@ -196,10 +209,41 @@ namespace BillApp.DBHelper.MainForm
             if (ProductExists(productName, out product))
             {
                 currentBillEntry.Products.UpdateProductPurchase(product, value);
+                saveNeeded = true;
                 amount = product.Rate * value;
             }
         }
 
-      
+        public BillType GetBillType()
+        {
+            return currentBillEntry.BillType;
+        }
+
+        public bool SaveEntryToDatabase()
+        {
+            if (firsttimesave && saveNeeded)
+            {
+                using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+                {
+                    var billEntries = db.GetCollection<BillEntry>("InvoiceDetails");
+                    billEntries.Insert(currentBillEntry);
+                    billEntries.EnsureIndex("Id");
+                    saveNeeded = false;
+                    firsttimesave = false;
+                    return true;
+                }
+            }
+            if (saveNeeded)
+            {
+                using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+                {
+                    var billEntries = db.GetCollection<BillEntry>("InvoiceDetails");
+                    billEntries.Update(currentBillEntry);
+                    saveNeeded = false;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
