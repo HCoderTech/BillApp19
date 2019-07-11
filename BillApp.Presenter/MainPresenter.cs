@@ -33,11 +33,11 @@ namespace BillApp.Presenter
         readonly IMainView view;
         readonly IDialogHelper dialogHelper;
         string currentSessionUser;
-        public MainPresenter(IMainView viewArg,IMainDBHelper mainDBHelper)
+        public MainPresenter(IMainView viewArg,IMainDBHelper mainDBHelper,IDialogHelper dialogHelper)
         {
             view = viewArg;
             dbHelper = mainDBHelper;
-            dialogHelper = new DialogHelper();
+            this.dialogHelper = dialogHelper;
         }
 
         public void Initialize(string userName,bool isAdmin)
@@ -191,60 +191,6 @@ namespace BillApp.Presenter
             return productList;
         }
 
-        public void SaveCurrentBillEntry()
-        {
-        //    Dim productdetail As String
-        //Dim x As Integer
-        //Dim number As Integer
-        //Dim deliver As String
-        //Dim billtype As String
-        //productdetail = ""
-        //If txtName.Text = "Enter Name" Or txtPhone.Text = "1234567890" Or lblTotal.Text = "0" Then
-        //    MessageBox.Show("Customer Name or Phone Number or Product details missing", "Required!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        //ElseIf IsNothing(ComboBill.SelectedItem)Then
-        //    MessageBox.Show("Select Bill Type", "Alert!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        //Else
-        //    If checkDeliver.Checked = True Then
-        //        deliver = "Yes"
-        //    Else
-        //        deliver = "No"
-        //    End If
-        //    If ComboBill.SelectedValue = "Order" Then
-        //        billtype = "Order"
-        //    Else
-        //        billtype = "Cash"
-        //    End If
-        //    number = My.Computer.FileSystem.ReadAllText("MRStudio\count.txt")
-        //    For x = 0 To ProductDetails.RowCount - 2
-        //        productdetail = String.Concat(productdetail, ProductDetails.Rows(x).Cells(0).Value, "-", ProductDetails.Rows(x).Cells(1).Value, "-", ProductDetails.Rows(x).Cells(3).Value, "|")
-        //    Next
-        //    Dim cmd As New OleDb.OleDbCommand
-        //    If Not cnn.State = ConnectionState.Open Then
-        //        'open connection if it is not yet open
-        //        cnn.Open()
-        //    End If
-        //    Try
-        //        If save = 0 Then
-        //            RefreshInvoiceId()
-        //            cmd.Connection = cnn
-        //            cmd.CommandText = "INSERT INTO Customer(Cust_Name, Cust_Phone, invoice_id, Products,Total,Balance,Advance,Discount,Delivered,BillType,BilledBy,DateOrder) " &
-        //                           " VALUES('" & txtName.Text & "','" & txtPhone.Text & "','" &
-        //                           Replace(lblid.Text, "Invoice : ", "") & "','" & productdetail & "','" &
-        //                           lblTotal.Text & "','" & lblBalance.Text & "','" & txtAdvance.Text & "','" & txtDiscount.Text & "','" & deliver & "','" & billtype & "','" & lblUser.Text & "','" & Now.Date & "')"
-        //            cmd.ExecuteNonQuery()
-        //            MessageBox.Show("Details Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        //            save = 1
-        //            number = Convert.ToInt64(number) + 1
-        //            My.Computer.FileSystem.WriteAllText("MRStudio\count.txt", number, False)
-        //            btnCancel.Enabled = False
-        //        Else
-        //            MessageBox.Show("Already Saved", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        //        End If
-        //    Catch ex As OleDb.OleDbException
-        //        MessageBox.Show("Invoice Id Error", "Exit and Restart", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        //    End Try
-        //End If
-        }
 
         public void UpdateBillType(int billType)
         {

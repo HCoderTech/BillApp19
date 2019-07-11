@@ -12,7 +12,7 @@ Public Class MainForm
 
     Public Sub New()
         UpdatingUI = True
-        presenter = New MainPresenter(Me, New MainDBHelper)
+        presenter = New MainPresenter(Me, New MainDBHelper, New DialogHelper)
         InitializeComponent()
         UpdatingUI = False
     End Sub

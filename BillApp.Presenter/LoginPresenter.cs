@@ -18,6 +18,7 @@ namespace BillApp.Presenter
     {
         readonly ILoginDBHelper dbHelper;
         readonly ILoginView view;
+        
         public LoginPresenter(ILoginView viewArg,ILoginDBHelper dbHelperArg)
         {
             view = viewArg;
