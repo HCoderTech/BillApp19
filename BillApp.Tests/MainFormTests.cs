@@ -136,8 +136,8 @@ namespace BillApp.MainFormTests
             presenter.Initialize("admin", true);
             presenter.CancelCurrentEntry();
             mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.Is<string>(x => x == "admin"), It.Is<bool>(x => x == true)),Times.Never,"DB initialized with new entry after cancel failed.");
-            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()), "Invoice ID updated after cancel failed.");
-            mockView.Verify(view => view.InitializeNewEntry(), "View updated for Initialize New Entry after cancel failed.");
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()),Times.Never, "Invoice ID updated after cancel failed.");
+            mockView.Verify(view => view.InitializeNewEntry(),Times.Never, "View updated for Initialize New Entry after cancel failed.");
 
         }
 
