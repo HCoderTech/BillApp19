@@ -291,6 +291,57 @@ namespace BillApp.MainFormTests
             mockDBHelper.Verify(db => db.SaveEntryToDatabase(), "When save needed and user responded yes, save call is not done internally.");
        }
 
+        [Test]
+        public void SaveBillEntryEmptyName()
+        {
+            mockDBHelper.Setup(db => db.GetCustomerName()).Returns(string.Empty);
+            presenter.SaveCurrentEntry();
+            mockDialogHelper.Verify(dialog => dialog.ShowWarning(It.IsAny<string>(), It.IsAny<string>()),"Warning not shown during save for empty customer name");
+        }
+
+        [Test]
+        public void SaveBillEntryEmptyPhone()
+        {
+            mockDBHelper.Setup(db => db.GetPhoneNumber()).Returns(string.Empty);
+            presenter.SaveCurrentEntry();
+            mockDialogHelper.Verify(dialog => dialog.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown during save for empty phone number");
+        }
+
+        [Test]
+        public void SaveBillEntryZeroAmount()
+        {
+            mockDBHelper.Setup(db => db.GetTotalAmount()).Returns("0");
+            presenter.SaveCurrentEntry();
+            mockDialogHelper.Verify(dialog => dialog.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown during save for zero amount");
+        }
+
+        [Test]
+        public void SaveBillEntryBillTypeUndefined()
+        {
+            mockDBHelper.Setup(db => db.GetBillType()).Returns(DBHelper.Data.BillType.Undefined);
+            presenter.SaveCurrentEntry();
+            mockDialogHelper.Verify(dialog => dialog.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown during save for undefined bill type");
+        }
+
+        [Test]
+        public void SaveBillEntrySucceeded()
+        {
+            mockDBHelper.Setup(db => db.GetBillType()).Returns(DBHelper.Data.BillType.Card);
+            mockDBHelper.Setup(db => db.SaveEntryToDatabase()).Returns(true);
+            presenter.SaveCurrentEntry();
+            mockDBHelper.Verify(db => db.SaveEntryToDatabase(), "Save Internal call didn't happen.");
+            mockDialogHelper.Verify(dialog => dialog.ShowInfo(It.IsAny<string>(), It.Is<string>(x => x == "Success")),"User not informed with save success message.");
+        }
+
+        [Test]
+        public void SaveBillEntryAlreadySaved()
+        {
+            mockDBHelper.Setup(db => db.GetBillType()).Returns(DBHelper.Data.BillType.Card);
+            mockDBHelper.Setup(db => db.SaveEntryToDatabase()).Returns(false);
+            presenter.SaveCurrentEntry();
+            mockDBHelper.Verify(db => db.SaveEntryToDatabase(), "Save Internal call didn't happen.");
+            mockDialogHelper.Verify(dialog => dialog.ShowInfo(It.IsAny<string>(), It.Is<string>(x => x == "Info")), "User not informed with already saved message.");
+        }
 
         private void ClearInvocations()
         {
