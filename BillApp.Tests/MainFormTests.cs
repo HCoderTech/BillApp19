@@ -260,6 +260,37 @@ namespace BillApp.MainFormTests
             mockView.Verify(view => view.UpdateDiscount(It.IsAny<string>()), "View values are not updated on successful product addition.");
         }
 
+        [Test]
+        public void CreateNewBillEntryAlreadySaved()
+        {
+            mockDBHelper.Setup(db => db.InitializeNewBillEntry(It.IsAny<string>(), It.IsAny<bool>())).Returns(true);
+            presenter.CreateNewBillEntry();
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()),"On Success, Invoice ID not updated in view.");
+            mockView.Verify(view => view.InitializeNewEntry(), "On Success, New Entry not initialized in view");
+        }
+
+
+        [Test]
+        public void CreateNewBillEntrySaveNeededUserConfirmNo()
+        {
+            mockDBHelper.Setup(db => db.InitializeNewBillEntry(It.IsAny<string>(), It.IsAny<bool>())).Returns(false);
+            mockDialogHelper.Setup(dialog => dialog.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            presenter.CreateNewBillEntry();
+            mockDBHelper.Verify(db => db.InitializeNewBillEntry(It.IsAny<string>(), It.Is<bool>(x => x == true)),"When save needed and user responded no, force Initialize is not done internally.");
+            mockView.Verify(view => view.UpdateInvoiceID(It.IsAny<string>()), "When save needed and user responded no,, Invoice ID not updated in view.");
+            mockView.Verify(view => view.InitializeNewEntry(), "When save needed and user responded no,, New Entry not initialized in view");
+        }
+
+        [Test]
+        public void CreateNewBillEntrySaveNeededUserConfirmYes()
+        {
+            mockDBHelper.Setup(db => db.InitializeNewBillEntry(It.IsAny<string>(), It.IsAny<bool>())).Returns(false);
+            mockDialogHelper.Setup(dialog => dialog.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            presenter.CreateNewBillEntry();
+            mockDBHelper.Verify(db => db.SaveEntryToDatabase(), "When save needed and user responded yes, save call is not done internally.");
+       }
+
+
         private void ClearInvocations()
         {
             mockDialogHelper.Invocations.Clear();

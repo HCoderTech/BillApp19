@@ -151,10 +151,6 @@ namespace BillApp.Presenter
 
                 if (isSaved)
                 {
-                    int number;
-                    int.TryParse(File.ReadAllText("MRStudio\\count.txt"),out number);
-                    number = number + 1;
-                    File.WriteAllText("MRStudio\\count.txt", number.ToString());
                     dialogHelper.ShowInfo("Details Saved", "Success");
                 }
                 else

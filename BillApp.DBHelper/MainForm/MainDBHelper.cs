@@ -230,6 +230,10 @@ namespace BillApp.DBHelper.MainForm
                     billEntries.EnsureIndex("Id");
                     saveNeeded = false;
                     firsttimesave = false;
+                    int number;
+                    int.TryParse(File.ReadAllText("MRStudio\\count.txt"), out number);
+                    number = number + 1;
+                    File.WriteAllText("MRStudio\\count.txt", number.ToString());
                     return true;
                 }
             }
