@@ -43,5 +43,23 @@ namespace BillApp.DBHelper.Common
                 products.EnsureIndex("Id");
             }
         }
+
+        public int GetBillEntryCount()
+        {
+            using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+            {
+                var billEntries = db.GetCollection<BillEntry>("InvoiceDetails");
+                return billEntries.Count() ;
+            }
+        }
+
+        public BillEntry GetCustomer(string name,string phonenumber)
+        {
+            using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+            {
+                var billEntries = db.GetCollection<BillEntry>("InvoiceDetails");
+                return billEntries. Find(x => x.CustomerName.ToLower()==name.ToLower() && x.PhoneNumber.ToLower()==phonenumber.ToLower()).First();
+            }
+        }
     }
 }

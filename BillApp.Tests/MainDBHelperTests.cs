@@ -220,6 +220,87 @@ namespace BillApp.Tests
             Assert.AreEqual("190", mainDBHelper.GetTotalAmount(), "Amount for the products not equal to the expected value.");
         }
 
+        [Test]
+        public void GetProductsList()
+        {
+            System.Collections.Generic.List<string> products =mainDBHelper.GetProducts("P");
+            Assert.AreEqual(2, products.Count, "Products starting with P should be equal to 2.");
+        }
+
+        [Test]
+        public void UpdateAdvanceMoreThanAmount()
+        {
+            AddMultipleProducts();
+            double balance = 0;
+            bool isUpdated=mainDBHelper.UpdateAdvance(200,out balance);
+            Assert.IsFalse(isUpdated, "Updation should not happen when the advance is greater than total");
+            Assert.AreEqual("0", mainDBHelper.GetAdvance(), "Internal values messed up.");
+            Assert.AreEqual("190", mainDBHelper.GetBalance(), "Internal values messed up.");
+            Assert.AreEqual("0", mainDBHelper.GetDiscount(), "Internal values messed up.");
+        }
+
+        [Test]
+        public void UpdateAdvanceSucceeded()
+        {
+            AddMultipleProducts();
+            double balance = 0;
+            bool isUpdated = mainDBHelper.UpdateAdvance(180, out balance);
+            Assert.IsTrue(isUpdated, "Updation should not happen when the advance is greater than total");
+            Assert.AreEqual("180", mainDBHelper.GetAdvance(), "Internal values messed up.");
+            Assert.AreEqual("10", mainDBHelper.GetBalance(), "Internal values messed up.");
+            Assert.AreEqual("0", mainDBHelper.GetDiscount(), "Internal values messed up.");
+        }
+
+        [Test]
+        public void UpdateDiscountMoreThanAmount()
+        {
+            AddMultipleProducts();
+            double balance = 0;
+            bool isUpdated = mainDBHelper.UpdateAdvance(180, out balance);
+            Assert.IsTrue(isUpdated, "Updation should happen when the advance is lesser or equal to total");
+            bool isDiscountUpdated = mainDBHelper.UpdateDiscount(30, out balance);
+            Assert.IsFalse(isDiscountUpdated, "Updation should not happen when the advance + discount is greater than total");
+            Assert.AreEqual("180", mainDBHelper.GetAdvance(), "Internal values messed up.");
+            Assert.AreEqual("10", mainDBHelper.GetBalance(), "Internal values messed up.");
+            Assert.AreEqual("0", mainDBHelper.GetDiscount(), "Internal values messed up.");
+        }
+
+        [Test]
+        public void UpdateDiscountSucceeded()
+        {
+            AddMultipleProducts();
+            double balance = 0;
+            bool isUpdated = mainDBHelper.UpdateAdvance(180, out balance);
+            Assert.IsTrue(isUpdated, "Updation should happen when the advance is lesser or equal to total");
+            bool isDiscountUpdated = mainDBHelper.UpdateDiscount(10, out balance);
+            Assert.IsTrue(isDiscountUpdated, "Updation should happen when the advance + discount is less than or equal to total");
+            Assert.AreEqual("180", mainDBHelper.GetAdvance(), "Internal values messed up.");
+            Assert.AreEqual("0", mainDBHelper.GetBalance(), "Internal values messed up.");
+            Assert.AreEqual("10", mainDBHelper.GetDiscount(), "Internal values messed up.");
+        }
+
+        [Test]
+        public void SaveEntryToDataBase()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            mainDBHelper.UpdateCustomerName("Ram");
+            mainDBHelper.UpdatePhoneNumber("9447586655");
+            mainDBHelper.AddProduct("Selfie", out amount);
+            mainDBHelper.UpdateBillType(2);
+            mainDBHelper.UpdateDeliverStatus(true);
+            int beforeCount = dbHelper.GetBillEntryCount();
+            mainDBHelper.SaveEntryToDatabase();
+            int afterCount = dbHelper.GetBillEntryCount();
+            Assert.AreEqual(beforeCount + 1, afterCount, "Bill Entry not saved to the database");
+            mainDBHelper.UpdateBillType(1);
+            mainDBHelper.SaveEntryToDatabase();
+            int currentCount = dbHelper.GetBillEntryCount();
+            Assert.AreEqual(afterCount, currentCount, "Updating the entry should not add a record to the database.");
+        //    BillEntry latestEntry = dbHelper.GetCustomer("Ram", "9447586655");
+        //    Assert.IsNotNull(latestEntry, "Bill Entry should not be null");
+        //    Assert.AreEqual(2, (int)latestEntry.BillType, "Updated value didn't get saved after save.");
+        }
 
     }
 }

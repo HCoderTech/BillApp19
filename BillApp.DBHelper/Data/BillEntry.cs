@@ -22,7 +22,7 @@ namespace BillApp.DBHelper.Data
     }
 
     public enum BillType { Undefined,Cash, Card, UPI }
-
+    
     public class ProductPurchase
     {
         public Dictionary<Product, double> ProductList { get; set; }
