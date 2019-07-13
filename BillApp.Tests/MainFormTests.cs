@@ -146,6 +146,30 @@ namespace BillApp.MainFormTests
 
         }
 
+        [Test]
+        public void UpdateDeliverStatusTrue()
+        {
+            presenter.UpdateDeliverStatus(true);
+            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == true)));
+        }
+
+        [Test]
+        public void UpdateDeliverStatusFalse()
+        {
+            presenter.UpdateDeliverStatus(false);
+            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == false)));
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void UpdateBillType(int billType)
+        {
+            presenter.UpdateBillType(billType);
+            mockDBHelper.Verify(db => db.UpdateBillType(It.Is<int>(x=>x==billType)));
+        }
+
+
         private void ClearInvocations()
         {
             mockDialogHelper.Invocations.Clear();
