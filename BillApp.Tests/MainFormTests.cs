@@ -3,6 +3,7 @@ using BillApp.Presenter;
 using BillApp.ViewHelper;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace BillApp.MainFormTests
 {
@@ -187,6 +188,33 @@ namespace BillApp.MainFormTests
             presenter.UpdateDiscount(25.0);
             mockView.Verify(view => view.UpdateDiscount(It.Is<string>(x => x == "")),"On Failure, Discount should be cleared from the view.");
             mockDialogHelper.Verify(dialog => dialog.ShowError(It.IsAny<string>(), It.IsAny<string>()),"Error Dialog is not shown, on failure."); 
+        }
+
+        [Test]
+        public void UpdateAdvanceSucceeded()
+        {
+            double balance = 0;
+            mockDBHelper.Setup(db => db.UpdateAdvance(It.IsAny<double>(), out balance)).Returns(true);
+            presenter.UpdateAdvance(25.0);
+            mockView.Verify(view => view.UpdateBalance(It.IsAny<string>()), "On Success, Balance was not updated on the view");
+        }
+
+        [Test]
+        public void UpdateAdvanceFailed()
+        {
+            double balance = 0;
+            mockDBHelper.Setup(db => db.UpdateAdvance(It.IsAny<double>(), out balance)).Returns(false);
+            presenter.UpdateAdvance(25.0);
+            mockView.Verify(view => view.UpdateAdvance(It.Is<string>(x => x == "")), "On Failure, Advance should be cleared from the view.");
+            mockDialogHelper.Verify(dialog => dialog.ShowError(It.IsAny<string>(), It.IsAny<string>()), "Error Dialog is not shown, on failure.");
+        }
+
+        [Test]
+        public void GetProductList()
+        {
+            mockDBHelper.Setup(db => db.GetProducts("Ph")).Returns(new System.Collections.Generic.List<string>() { "Photo", "PhonePhoto" });
+            List<string> products=presenter.GetProductList("Ph");
+            Assert.AreEqual(2, products.Count, "Products not retained properly");
         }
 
         [Test]
