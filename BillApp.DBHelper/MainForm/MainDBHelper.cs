@@ -21,6 +21,7 @@ namespace BillApp.DBHelper.MainForm
         List<string> GetProducts(string productPattern);
         void UpdateBillType(int billType);
         void UpdateDeliverStatus(bool status);
+        bool GetDeliverStatus();
         bool AddProduct(string productName,out double amount);
         string GetTotalAmount();
         string GetBalance();
@@ -246,6 +247,11 @@ namespace BillApp.DBHelper.MainForm
                 }
             }
             return false;
+        }
+
+        public bool GetDeliverStatus()
+        {
+            return currentBillEntry.Delivered;
         }
     }
 }

@@ -15,6 +15,16 @@ namespace BillApp.Tests
             Directory.CreateDirectory("MRStudio\\");
         }
 
+        private void AddProductsToDatabase()
+        {
+            if (File.Exists("MRStudio\\MyData.db"))
+                File.Delete("MRStudio\\MyData.db");
+           
+            dbHelper.AddProductDetails("PhotoFrame", 100);
+            dbHelper.AddProductDetails("Selfie", 50);
+            dbHelper.AddProductDetails("ProfilePic", 40);
+        }
+
         private void FileCreate()
         {
             File.Create("MRStudio\\count.txt").Close();
@@ -45,15 +55,12 @@ namespace BillApp.Tests
             PathInitialize();
             PathCreate();
             FileCreate();
+            AddProductsToDatabase();
         }
 
         [SetUp]
         public void TestInitialize()
         {
-            if (Directory.Exists("MRStudio\\") && File.Exists("MRStudio\\MyData.db"))
-                File.Delete("MRStudio\\MyData.db");
-            else
-                Directory.CreateDirectory("MRStudio\\");
             dbHelper.AddAdminUser("admin", "admin");
             dbHelper.AddStandardUser("Arun", "Hello");
             mainDBHelper = new MainDBHelper();
@@ -107,7 +114,7 @@ namespace BillApp.Tests
         public void UpdatePhoneNumberFailed()
         {
             mainDBHelper.InitializeNewBillEntry("Suresh", true);
-            mainDBHelper.UpdateCustomerName("944O235698");
+            mainDBHelper.UpdatePhoneNumber("944O235698");
             Assert.AreEqual(string.Empty, mainDBHelper.GetPhoneNumber(), "Phone Number is updated when it doesn't follow right pattern.");
         }
 
@@ -128,6 +135,91 @@ namespace BillApp.Tests
             mainDBHelper.UpdateBillType(-1);
             Assert.AreEqual(3, (int)mainDBHelper.GetBillType(), "Uodate BillType successful for invalid values.");
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateDeliverStatus(bool status)
+        {
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            mainDBHelper.UpdateDeliverStatus(status);
+            Assert.AreEqual(status, mainDBHelper.GetDeliverStatus(), "Deliver Status not updated correctly.");
+        }
+
+        [Test]
+        public void AddProductThatDoesntExist()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            bool isAdded=mainDBHelper.AddProduct("Product",out amount);
+            Assert.IsFalse(isAdded, "Product added to Bill entry, when it doesn't exist in database.");
+        }
+
+        [Test]
+        public void AddProductFirstTime()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            bool isAdded = mainDBHelper.AddProduct("Selfie", out amount);
+            Assert.IsTrue(isAdded, "Product not added to Bill entry, when it exists in database.");
+            Assert.AreEqual(50, amount, "Amount for the product not equal to the expected value.");
+            Assert.AreEqual("50", mainDBHelper.GetTotalAmount(), "Amount for the product not equal to the expected value.");
+        }
+        [Test]
+        public void AddProductMultipleEntries()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            mainDBHelper.AddProduct("Selfie", out amount);
+            bool isAdded = mainDBHelper.AddProduct("Selfie", out amount);
+            Assert.IsTrue(isAdded, "Product not added to Bill entry, when it exists in database.");
+            Assert.AreEqual(50, amount, "Amount for the product not equal to the expected value.");
+            Assert.AreEqual("100", mainDBHelper.GetTotalAmount(), "Amount for the product not equal to the expected value.");
+        }
+
+        [Test]
+        public void AddMultipleProducts()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            bool isAdded = true;
+            isAdded &= mainDBHelper.AddProduct("Selfie", out amount);
+            isAdded &= mainDBHelper.AddProduct("PhotoFrame", out amount);
+            isAdded &= mainDBHelper.AddProduct("ProfilePic", out amount);
+            Assert.IsTrue(isAdded, "Products not added to Bill entry, when it exists in database.");
+            Assert.AreEqual(40, amount, "Amount for the product not equal to the expected value.");
+            Assert.AreEqual("190", mainDBHelper.GetTotalAmount(), "Amount for the products not equal to the expected value.");
+        }
+
+        [Test]
+        public void UpdateQuantityProductExist()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            bool isAdded = true;
+            isAdded &= mainDBHelper.AddProduct("Selfie", out amount);
+            isAdded &= mainDBHelper.AddProduct("PhotoFrame", out amount);
+            isAdded &= mainDBHelper.AddProduct("ProfilePic", out amount);
+            mainDBHelper.UpdateQuantity("Selfie",3,out amount);
+            Assert.IsTrue(isAdded, "Products not added to Bill entry, when it exists in database.");
+            Assert.AreEqual(150, amount, "Amount for the product not equal to the expected value.");
+            Assert.AreEqual("290", mainDBHelper.GetTotalAmount(), "Amount for the products not equal to the expected value.");
+        }
+
+        [Test]
+        public void UpdateQuantityProductNotExist()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            bool isAdded = true;
+            isAdded &= mainDBHelper.AddProduct("Selfie", out amount);
+            isAdded &= mainDBHelper.AddProduct("PhotoFrame", out amount);
+            isAdded &= mainDBHelper.AddProduct("ProfilePic", out amount);
+            mainDBHelper.UpdateQuantity("Selfies", 3, out amount);
+            Assert.IsTrue(isAdded, "Products not added to Bill entry, when it exists in database.");
+            Assert.AreEqual(0, amount, "Amount for the product not equal to the expected value.");
+            Assert.AreEqual("190", mainDBHelper.GetTotalAmount(), "Amount for the products not equal to the expected value.");
+        }
+
 
     }
 }

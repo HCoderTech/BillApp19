@@ -1,4 +1,5 @@
-﻿using BillApp.DBHelper.SplashScreen.Data;
+﻿using BillApp.DBHelper.Data;
+using BillApp.DBHelper.SplashScreen.Data;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,17 @@ namespace BillApp.DBHelper.Common
                 var adminUser = new UserDetail { Username = username, Password = password };
                 col.Insert(adminUser);
                 col.EnsureIndex("Id");
+            }
+        }
+
+        public void AddProductDetails(string productName,double rate)
+        {
+            using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+            {
+                var products = db.GetCollection<Product>("ProductDetails");
+                Product product1 = new Product() { ProductName = productName, Rate = rate };
+                products.Insert(product1);
+                products.EnsureIndex("Id");
             }
         }
     }
