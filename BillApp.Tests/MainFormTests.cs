@@ -150,14 +150,14 @@ namespace BillApp.MainFormTests
         public void UpdateDeliverStatusTrue()
         {
             presenter.UpdateDeliverStatus(true);
-            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == true)));
+            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == true)),"DB update call made was wrong.");
         }
 
         [Test]
         public void UpdateDeliverStatusFalse()
         {
             presenter.UpdateDeliverStatus(false);
-            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == false)));
+            mockDBHelper.Verify(db => db.UpdateDeliverStatus(It.Is<bool>(x => x == false)), "DB update call made was wrong.");
         }
 
         [TestCase(1)]
@@ -166,9 +166,71 @@ namespace BillApp.MainFormTests
         public void UpdateBillType(int billType)
         {
             presenter.UpdateBillType(billType);
-            mockDBHelper.Verify(db => db.UpdateBillType(It.Is<int>(x=>x==billType)));
+            mockDBHelper.Verify(db => db.UpdateBillType(It.Is<int>(x=>x==billType)), "DB update call made was wrong.");
         }
 
+
+        [Test]
+        public void UpdateDiscountSucceeded()
+        {
+            double balance = 0;
+            mockDBHelper.Setup(db => db.UpdateDiscount(It.IsAny<double>(), out balance)).Returns(true);
+            presenter.UpdateDiscount(25.0);
+            mockView.Verify(view => view.UpdateBalance(It.IsAny<string>()), "On Success, Balance was not updated on the view");
+        }
+
+        [Test]
+        public void UpdateDiscountFailed()
+        {
+            double balance = 0;
+            mockDBHelper.Setup(db => db.UpdateDiscount(It.IsAny<double>(), out balance)).Returns(false);
+            presenter.UpdateDiscount(25.0);
+            mockView.Verify(view => view.UpdateDiscount(It.Is<string>(x => x == "")),"On Failure, Discount should be cleared from the view.");
+            mockDialogHelper.Verify(dialog => dialog.ShowError(It.IsAny<string>(), It.IsAny<string>()),"Error Dialog is not shown, on failure."); 
+        }
+
+        [Test]
+        public void UpdatePhoneNumberSucceeded()
+        {
+            mockDBHelper.Setup(db => db.UpdatePhoneNumber(It.IsAny<string>())).Returns(true);
+            mockDBHelper.Setup(db => db.GetPhoneNumber()).Returns("9994458698");
+            presenter.UpdatePhoneNumber("9994458698");
+            mockView.Verify(view => view.UpdatePhoneNumber(It.IsAny<string>()),Times.Never,"On Success, view should not be updated after success.");  
+        }
+
+        [Test]
+        public void UpdatePhoneNumberFailed()
+        {
+            mockDBHelper.Setup(db => db.UpdatePhoneNumber(It.IsAny<string>())).Returns(false);
+            mockDBHelper.Setup(db => db.GetPhoneNumber()).Returns("9994458698");
+            presenter.UpdatePhoneNumber("9994458698");
+            mockDBHelper.Verify(db => db.GetPhoneNumber(),"On Failure, DB call not made for view update.");
+            mockView.Verify(view => view.UpdatePhoneNumber(It.IsAny<string>()), Times.Once, "On Failure, view should not be updated after success.");
+        }
+
+        [Test]
+        public void UpdateQuantityEmptyName()
+        {
+            presenter.UpdateQuantity(string.Empty,25);
+            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowError(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown when empty product name typed.");
+        }
+
+        [Test]
+        public void UpdateQuantityNull()
+        {
+            presenter.UpdateQuantity(null,25);
+            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown when product name is null.");
+        }
+
+        [Test]
+        public void UpdateQuantitySucceeded()
+        {
+            presenter.UpdateQuantity("PassPort",10);
+            double amount = 0;
+            mockDBHelper.Verify(db => db.UpdateQuantity(It.Is<string>(x => x == "PassPort"),It.Is<double>(x=>x==10) ,out amount),"DB Helper call not made on success.");
+            mockView.Verify(view => view.UpdateTotalAmount(It.IsAny<string>()), "View values are not updated on successful product addition.");
+            mockView.Verify(view => view.UpdateDiscount(It.IsAny<string>()), "View values are not updated on successful product addition.");
+        }
 
         private void ClearInvocations()
         {
