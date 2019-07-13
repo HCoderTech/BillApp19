@@ -219,7 +219,7 @@ namespace BillApp.MainFormTests
         public void UpdateQuantityNull()
         {
             presenter.UpdateQuantity(null,25);
-            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowWarning(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown when product name is null.");
+            mockDialogHelper.Verify(dialogHelper => dialogHelper.ShowError(It.IsAny<string>(), It.IsAny<string>()), "Warning not shown when product name is null.");
         }
 
         [Test]
