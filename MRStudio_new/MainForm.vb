@@ -343,6 +343,7 @@ Public Class MainForm
                     End If
                 End If
             Catch
+                'Not handled now. Will be logged in the future
             End Try
         End If
     End Sub

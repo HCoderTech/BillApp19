@@ -30,7 +30,7 @@ namespace BillApp.ViewHelper
         public bool AskUser(string msg, string caption)
         {
             DialogResult result=MessageBox.Show(msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            return result == DialogResult.Yes ? true : false;
+            return result == DialogResult.Yes;
         }
     }
 }

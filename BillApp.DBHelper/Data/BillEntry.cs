@@ -60,7 +60,9 @@ namespace BillApp.DBHelper.Data
                 }
                 UpdateValues();
             }
-            catch { }
+            catch {
+                //Not handled now.Will be logged in the future
+            }
             
         }
 
