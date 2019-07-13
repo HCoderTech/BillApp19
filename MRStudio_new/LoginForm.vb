@@ -12,7 +12,7 @@ Public Class LoginForm
         presenter = New LoginPresenter(Me, New LoginDBHelper)
     End Sub
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
-        If RadioUser.Checked = True Then
+        If RadioUser.Checked Then
             presenter.LoginAsUser(txtUsername.Text, txtPassword.Text)
         Else
             presenter.LoginAsAdmin(txtUsername.Text, txtPassword.Text)

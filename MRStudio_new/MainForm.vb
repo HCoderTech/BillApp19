@@ -92,7 +92,6 @@ Public Class MainForm
         End If
         UpdatingUI = True
         If e.ColumnIndex = 0 Then
-            AutoComplete()
             presenter.AddProduct(ProductDetails.Rows(e.RowIndex).Cells(0).Value.ToString())
         ElseIf e.ColumnIndex = 1 Then
             presenter.UpdateQuantity(ProductDetails.Rows(e.RowIndex).Cells(0).Value.ToString(), ProductDetails.Rows(e.RowIndex).Cells(1).Value)
@@ -139,31 +138,33 @@ Public Class MainForm
     End Sub
 
     Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
-        Dim reportfont As Font = New Drawing.Font("Times New Roman", 22)
-        Dim reportfont1 As Font = New Drawing.Font("Arial", 9, FontStyle.Bold)
-        Dim reportfont3 As Font = New Drawing.Font("Arial", 10, FontStyle.Bold)
-        Dim reportfont2 As Font = New Drawing.Font("Times New Roman", 16, FontStyle.Bold)
+        Dim reportfont1 As Font = New Font("Arial", 9, FontStyle.Bold)
+        Dim reportfont3 As Font = New Font("Arial", 10, FontStyle.Bold)
+        Dim reportfont2 As Font = New Font("Times New Roman", 16, FontStyle.Bold)
         Dim apen As Pen = New Pen(Color.Black, 2.0F)
         Dim apen1 As Pen = New Pen(Color.Black, 1.0F)
         Dim x As Integer
-        Dim Image1 As New System.Drawing.Bitmap(filename:="table.png")
-        Dim Image2 As New System.Drawing.Bitmap(filename:="MR.png")
-        e.Graphics.DrawImage(Image2, point:=New Point(x:=30, y:=30))
-        e.Graphics.DrawString("M.R. DIGITAL STUDIO", reportfont2, Brushes.Black, 125, 30)
-        e.Graphics.DrawString("10,Kumarasamy Colony Main Road,", reportfont1, Brushes.Black, 125, 55)
-        e.Graphics.DrawString("Kangayam Cross Road,Tirupur-4.", reportfont1, Brushes.Black, 125, 73)
-        e.Graphics.DrawString("Ph : 0421-4254884 Cell : 9994455577", reportfont1, Brushes.Black, 125, 91)
-        e.Graphics.DrawString("Email: rkmr2006@gmail.com", reportfont1, Brushes.Black, 125, 109)
+        Dim image1 As New Bitmap(filename:="table.png")
+        Dim image2 As New Bitmap(filename:="MR.png")
+        With e
+            .Graphics.DrawImage(image2, point:=New Point(x:=30, y:=30))
+            .Graphics.DrawString("M.R. DIGITAL STUDIO", reportfont2, Brushes.Black, 125, 30)
+            .Graphics.DrawString("10,Kumarasamy Colony Main Road,", reportfont1, Brushes.Black, 125, 55)
+            .Graphics.DrawString("Kangayam Cross Road,Tirupur-4.", reportfont1, Brushes.Black, 125, 73)
+            .Graphics.DrawString("Ph : 0421-4254884 Cell : 9994455577", reportfont1, Brushes.Black, 125, 91)
+            .Graphics.DrawString("Email: rkmr2006@gmail.com", reportfont1, Brushes.Black, 125, 109)
 
-        e.Graphics.DrawLine(apen, 20, 135, 385, 135)
-        e.Graphics.DrawLine(apen1, 20, 20, 385, 20)
-        e.Graphics.DrawLine(apen, 20, 20, 20, 135)
-        e.Graphics.DrawLine(apen1, 385, 20, 385, 135)
+            .Graphics.DrawLine(apen, 20, 135, 385, 135)
+            .Graphics.DrawLine(apen1, 20, 20, 385, 20)
+            .Graphics.DrawLine(apen, 20, 20, 20, 135)
+            .Graphics.DrawLine(apen1, 385, 20, 385, 135)
 
-        e.Graphics.DrawLine(apen1, 25, 130, 380, 130)
-        e.Graphics.DrawLine(apen, 25, 25, 380, 25)
-        e.Graphics.DrawLine(apen1, 25, 25, 25, 130)
-        e.Graphics.DrawLine(apen, 380, 25, 380, 130)
+            .Graphics.DrawLine(apen1, 25, 130, 380, 130)
+            .Graphics.DrawLine(apen, 25, 25, 380, 25)
+            .Graphics.DrawLine(apen1, 25, 25, 25, 130)
+            .Graphics.DrawLine(apen, 380, 25, 380, 130)
+        End With
+
         If Me.ComboBill.SelectedItem = "Cash" Then
             e.Graphics.DrawString("CASH BILL", reportfont3, Brushes.Black, 145, 145)
         Else
@@ -173,7 +174,7 @@ Public Class MainForm
         e.Graphics.DrawString("Bill No. : " & Replace(lblid.Text, "Invoice : ", ""), reportfont3, Brushes.Black, 210, 170)
         e.Graphics.DrawString(String.Concat("Name : ", txtName.Text), reportfont3, Brushes.Black, 15, 195)
         e.Graphics.DrawString(String.Concat("Contact : ", txtPhone.Text), reportfont3, Brushes.Black, 210, 195)
-        e.Graphics.DrawImage(Image1, point:=New Point(x:=-4, y:=220))
+        e.Graphics.DrawImage(image1, point:=New Point(x:=-4, y:=220))
         For x = 0 To ProductDetails.RowCount - 2
             e.Graphics.DrawString(ProductDetails.Rows(x).Cells(0).Value, reportfont3, Brushes.Black, 20, (255 + x * 25))
             e.Graphics.DrawString(ProductDetails.Rows(x).Cells(1).Value, reportfont3, Brushes.Black, 185, (255 + x * 25))
@@ -191,7 +192,7 @@ Public Class MainForm
         If UpdatingUI Then
             Return
         End If
-        If Not txtPhone.Text = "1234567890" Then
+        If txtPhone.Text <> "1234567890" Then
             presenter.UpdatePhoneNumber(txtPhone.Text)
         End If
     End Sub
@@ -200,7 +201,7 @@ Public Class MainForm
         If UpdatingUI Then
             Return
         End If
-        If Not txtName.Text = "Enter Name" Then
+        If txtName.Text <> "Enter Name" Then
             presenter.UpdateCustomerName(txtName.Text)
         End If
     End Sub
@@ -309,20 +310,20 @@ Public Class MainForm
             If autoText IsNot Nothing Then
                 autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                 autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
-                Dim DataCollection As New AutoCompleteStringCollection()
-                Dim ProductList As List(Of String)
+                Dim dataCollection As New AutoCompleteStringCollection()
+                Dim productList As List(Of String)
                 If ProductDetails.CurrentCell.Value = Nothing Then
-                    ProductList = presenter.GetProductList("")
-                    addItems(DataCollection, ProductList)
+                    productList = presenter.GetProductList("")
+                    AddItems(dataCollection, productList)
                 Else
-                    ProductList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
-                    addItems(DataCollection, ProductList)
+                    productList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
+                    AddItems(dataCollection, productList)
                 End If
-                autoText.AutoCompleteCustomSource = DataCollection
+                autoText.AutoCompleteCustomSource = dataCollection
             End If
         End If
     End Sub
-    Public Sub addItems(ByVal col As AutoCompleteStringCollection, ByVal productList As List(Of String))
+    Public Sub AddItems(ByVal col As AutoCompleteStringCollection, ByVal productList As List(Of String))
         Dim product As String
         For Each product In productList
             col.Add(product)
@@ -341,7 +342,7 @@ Public Class MainForm
                         ProductDetails.CurrentCell = ProductDetails.Rows(ProductDetails.CurrentCell.RowIndex - 1).Cells(ProductDetails.CurrentCell.ColumnIndex)
                     End If
                 End If
-            Catch exe As NullReferenceException
+            Catch
             End Try
         End If
     End Sub
@@ -458,23 +459,6 @@ Public Class MainForm
 
     Public Sub UpdateRate(amount As Double) Implements IMainView.UpdateRate
         ProductDetails.Rows(ProductDetails.CurrentCell.RowIndex).Cells(2).Value = amount
-    End Sub
-
-    Private Sub AutoComplete()
-        'If ProductDetails.CurrentCell.ColumnIndex = 0 Then
-        '    Dim autoText As TextBox = TryCast(ProductDetails.EditingControl, TextBox)
-        '    If autoText IsNot Nothing Then
-        '        autoText.AutoCompleteMode = AutoCompleteMode.Suggest
-        '        autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
-        '        Dim DataCollection As New AutoCompleteStringCollection()
-        '        Dim ProductList As List(Of String)
-        '        If Not ProductDetails.CurrentCell.Value = Nothing Then
-        '            ProductList = presenter.GetProductList(ProductDetails.CurrentCell.Value.ToString())
-        '            addItems(DataCollection, ProductList)
-        '        End If
-        '        autoText.AutoCompleteCustomSource = DataCollection
-        '    End If
-        'End If
     End Sub
 
     Public Sub UpdateQuantity(v As Integer) Implements IMainView.UpdateQuantity

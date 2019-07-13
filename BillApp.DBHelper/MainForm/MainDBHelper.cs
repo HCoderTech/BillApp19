@@ -21,7 +21,7 @@ namespace BillApp.DBHelper.MainForm
         List<string> GetProducts(string productPattern);
         void UpdateBillType(int billType);
         void UpdateDeliverStatus(bool status);
-        bool AddProduct(string productName,out double rate);
+        bool AddProduct(string productName,out double amount);
         string GetTotalAmount();
         string GetBalance();
         string GetAdvance();

@@ -8,7 +8,7 @@ namespace BillApp.ViewHelper
         void ShowWarning(string msg, string caption);
         void ShowError(string msg, string caption);
         void ShowInfo(string msg, string caption);
-        bool AskUser(string v1, string v2);
+        bool AskUser(string msg, string caption);
     }
     public class DialogHelper : IDialogHelper
     {

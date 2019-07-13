@@ -50,19 +50,18 @@ namespace BillApp.DBHelper.Data
         {
             try
             {
-                if(addtoExisting)
+                if (addtoExisting)
                 {
                     ProductList[product] = ProductList[product] + quantity;
-                }else
+                }
+                else
                 {
                     ProductList[product] = quantity;
                 }
                 UpdateValues();
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch { }
+            
         }
 
         private void UpdateValues()
@@ -80,7 +79,7 @@ namespace BillApp.DBHelper.Data
             return ProductList.Keys.Any(x => x.ProductName.ToLower() == productName.ToLower());
         }
     }
-    public class Product:IEquatable<Product>
+    public sealed class Product:IEquatable<Product>
     {
         [BsonId]
         public int Id { get; set; }

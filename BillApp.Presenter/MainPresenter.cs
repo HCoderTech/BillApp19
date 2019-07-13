@@ -20,7 +20,7 @@ namespace BillApp.Presenter
         void ShowUpdateDBForm();
         void CancelCurrentEntry();
         List<string> GetProductList(string productPattern);
-        void UpdateBillType(int v);
+        void UpdateBillType(int billType);
         void UpdateDeliverStatus(bool status);
         void AddProduct(string productName);
         void UpdateQuantity(string productName, double value);
