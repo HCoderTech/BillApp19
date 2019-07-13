@@ -42,7 +42,7 @@ namespace BillApp.DBHelper.MainForm
                 currentBillEntry = new BillEntry();
                 currentBillEntry.CustomerName = "";
                 currentBillEntry.PhoneNumber = "";
-                currentBillEntry.BillID = File.ReadAllText("MRStudio\\count.txt");
+                currentBillEntry.BillID = File.ReadAllText("MRStudio\\count.txt").Replace("\r\n","");
                 currentBillEntry.BilledByUser = BilledBy;
                 saveNeeded = false;
                 firsttimesave = true;
@@ -137,8 +137,6 @@ namespace BillApp.DBHelper.MainForm
            
                 currentBillEntry.BillType = (BillType)(billType+1);
                 saveNeeded = true;
-            
-               
         }
 
         public void UpdateDeliverStatus(bool status)
