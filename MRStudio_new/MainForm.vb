@@ -78,16 +78,17 @@ Public Class MainForm
 
     Private Sub ProductDetails_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles ProductDetails.CellMouseEnter
         Try
-            If e.ColumnIndex = 1 And e.RowIndex >= 0 Then
+            If e.ColumnIndex = 1 AndAlso e.RowIndex >= 0 Then
                 mouseclicked = 1
                 ProductDetails.CurrentCell = ProductDetails.Rows(e.RowIndex).Cells(e.ColumnIndex)
             End If
         Catch exe As IndexOutOfRangeException
+            'Not handled now. Will be logged in the future
         End Try
     End Sub
     Dim UpdatingUI As Boolean
     Private Sub ProductDetails_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles ProductDetails.CellValueChanged
-        If UpdatingUI = True Then
+        If UpdatingUI Then
             Return
         End If
         UpdatingUI = True
