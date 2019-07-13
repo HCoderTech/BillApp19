@@ -285,7 +285,7 @@ namespace BillApp.MainFormTests
         public void CreateNewBillEntrySaveNeededUserConfirmYes()
         {
             mockDBHelper.Setup(db => db.InitializeNewBillEntry(It.IsAny<string>(), It.IsAny<bool>())).Returns(false);
-            mockDialogHelper.Setup(dialog => dialog.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            mockDialogHelper.Setup(dialog => dialog.AskUser(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             presenter.CreateNewBillEntry();
             mockDBHelper.Verify(db => db.SaveEntryToDatabase(), "When save needed and user responded yes, save call is not done internally.");
        }
