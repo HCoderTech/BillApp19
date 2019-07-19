@@ -297,9 +297,9 @@ namespace BillApp.Tests
             mainDBHelper.SaveEntryToDatabase();
             int currentCount = dbHelper.GetBillEntryCount();
             Assert.AreEqual(afterCount, currentCount, "Updating the entry should not add a record to the database.");
-        //    BillEntry latestEntry = dbHelper.GetCustomer("Ram", "9447586655");
-        //    Assert.IsNotNull(latestEntry, "Bill Entry should not be null");
-        //    Assert.AreEqual(2, (int)latestEntry.BillType, "Updated value didn't get saved after save.");
+            BillEntry latestEntry = dbHelper.GetCustomer("Ram", "9447586655");
+            Assert.IsNotNull(latestEntry, "Bill Entry should not be null");
+            Assert.AreEqual(2, (int)latestEntry.BillType, "Updated value didn't get saved after save.");
         }
 
     }

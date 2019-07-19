@@ -58,8 +58,24 @@ namespace BillApp.DBHelper.Common
             using (var db = new LiteDatabase("MRStudio\\MyData.db"))
             {
                 var billEntries = db.GetCollection<BillEntry>("InvoiceDetails");
-                return billEntries. Find(x => x.CustomerName.ToLower()==name.ToLower() && x.PhoneNumber.ToLower()==phonenumber.ToLower()).First();
+                return billEntries.FindAll().Where(x => x.CustomerName.ToLower()==name.ToLower() && x.PhoneNumber.ToLower()==phonenumber.ToLower()).First();
+            }
+        }
+
+        public Product GetProduct(string productName)
+        {
+            Product product = null;
+            using (var db = new LiteDatabase("MRStudio\\MyData.db"))
+            {
+                var products = db.GetCollection<Product>("ProductDetails");
+                if (products.Exists(x => x.ProductName.ToLower() == (productName.ToLower())))
+                {
+                    product = products.Find(x => x.ProductName.ToLower() == (productName.ToLower())).First();
+                   
+                }
+                return product;
             }
         }
     }
+    
 }
