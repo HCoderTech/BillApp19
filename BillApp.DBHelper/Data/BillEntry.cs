@@ -18,7 +18,7 @@ namespace BillApp.DBHelper.Data
             set { Products.FromString(value); }
         }
         [BsonIgnore]
-        public ProductPurchase Products { get; set; } = new ProductPurchase();
+        public ProductPurchase Products { get;} = new ProductPurchase();
         public bool Delivered { get; set; }
         public BillType BillType { get; set; }
         public string BilledByUser { get; set; }
@@ -35,9 +35,6 @@ namespace BillApp.DBHelper.Data
     [Serializable]
     public class ProductPurchase
     {
-        
-        public int PurchaseId { get; set; }
-      
         public Dictionary<Product, double> ProductList { get; set; } = new Dictionary<Product, double>();
         public double Advance { get; set; }
         public double Discount { get; set; }
@@ -51,11 +48,7 @@ namespace BillApp.DBHelper.Data
             UpdateValues();
         }
 
-        public void RemoveProductPurchase(Product product)
-        {
-            ProductList.Remove(product);
-        }
-
+     
         public override string ToString()
         {
             string productString = string.Empty;
@@ -84,8 +77,7 @@ namespace BillApp.DBHelper.Data
 
         public void UpdateProductPurchase(Product product, double quantity,bool addtoExisting=false)
         {
-            try
-            {
+           
                 if (addtoExisting)
                 {
                     ProductList[product] = ProductList[product] + quantity;
@@ -95,10 +87,6 @@ namespace BillApp.DBHelper.Data
                     ProductList[product] = quantity;
                 }
                 UpdateValues();
-            }
-            catch {
-                //Not handled now.Will be logged in the future
-            }
             
         }
 
@@ -131,10 +119,7 @@ namespace BillApp.DBHelper.Data
             return ProductId;
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals((Product)obj);
-        }
+       
 
         public bool Equals(Product other)
         {
