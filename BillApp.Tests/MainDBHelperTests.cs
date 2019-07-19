@@ -228,6 +228,13 @@ namespace BillApp.Tests
         }
 
         [Test]
+        public void GetProductsNotInList()
+        {
+            System.Collections.Generic.List<string> products = mainDBHelper.GetProducts("Soap");
+            Assert.AreEqual(0, products.Count, "Not existant product should not return any results.");
+        }
+
+        [Test]
         public void UpdateAdvanceMoreThanAmount()
         {
             AddMultipleProducts();
@@ -300,6 +307,24 @@ namespace BillApp.Tests
             BillEntry latestEntry = dbHelper.GetCustomer("Ram", "9447586655");
             Assert.IsNotNull(latestEntry, "Bill Entry should not be null");
             Assert.AreEqual(2, (int)latestEntry.BillType, "Updated value didn't get saved after save.");
+        }
+
+        [Test]
+        public void SaveEntryToDataBaseAlreadySaved()
+        {
+            double amount = 0;
+            mainDBHelper.InitializeNewBillEntry("Suresh", true);
+            mainDBHelper.UpdateCustomerName("Ram");
+            mainDBHelper.UpdatePhoneNumber("9447586655");
+            mainDBHelper.AddProduct("Selfie", out amount);
+            mainDBHelper.UpdateBillType(2);
+            mainDBHelper.UpdateDeliverStatus(true);
+            int beforeCount = dbHelper.GetBillEntryCount();
+            mainDBHelper.SaveEntryToDatabase();
+            int afterCount = dbHelper.GetBillEntryCount();
+            Assert.AreEqual(beforeCount + 1, afterCount, "Bill Entry not saved to the database");
+            bool isSaved=mainDBHelper.SaveEntryToDatabase();
+            Assert.IsFalse(isSaved,"Already Saved entry should not update the database."); 
         }
 
     }
